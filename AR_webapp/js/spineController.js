@@ -235,6 +235,12 @@ console.log("loadSpine")
 		scale = 0.05;
 		z = 15;
 		break;
+		case "ar2":
+		ar2Mesh.visible = true;
+		number = 4;
+		scale = 0.05;
+		z = 15;
+		break;
 	}
 	//fondo.material.map = new THREE.TextureLoader().load( "assets/background"+markId+".jpg" );
 	if(number == 1 || number == 2 || number == 3 || number == 4 || number == 8 ){
