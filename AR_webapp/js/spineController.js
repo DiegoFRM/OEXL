@@ -227,10 +227,12 @@ console.log("loadSpine")
 		
 		
 		videoMesh.visible = true;
+            ar2Mesh.visible = false;
 		//videoElement.play();
 		break;
 		case "ar1B":
 		ar1BadMesh.visible = true;
+            ar2Mesh.visible = false;
 		number = 4;
 		scale = 0.05;
 		z = 15;
