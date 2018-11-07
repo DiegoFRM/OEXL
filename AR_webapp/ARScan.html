@@ -163,21 +163,21 @@
 		 // patternUrl : '../../data/data/patt.kanji'
 		 })
 
-		 /*var artoolkitMarker2 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+		 var artoolkitMarker2 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
 		 //type : 'barcode',
 		 //value:5,
 		 type:'pattern',
 		 patternUrl:'data/data/pattern_1B.patt',
 		 nameId:'ar1B'
 		 // patternUrl : '../../data/data/patt.kanji'
-		 })*/
+		 })
          
 		 var artoolkitMarker3 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
 		 //type : 'barcode',
 		 //value:5,
 		 type:'pattern',
 		 patternUrl:'data/data/pattern-ex.patt',
-		 nameId:'ar1B'
+		 nameId:'ar2'
 		 // patternUrl : '../../data/data/patt.kanji'
 		 })
 
@@ -251,6 +251,16 @@
     videoMesh.visible = false;
     arWorldRoot.add(videoMesh);
 
+        
+    var texture = new THREE.TextureLoader().load( "assets/raul.jpg" );
+   	var material = new THREE.MeshBasicMaterial({map: texture});
+    var geometry = new THREE.PlaneGeometry(200, 220);
+    var ar2Mesh = new THREE.Mesh(geometry, material);
+    ar2Mesh.rotation.x = -Math.PI/2;
+    ar2Mesh.position.y=-200;
+    ar2Mesh.position.z = -10;
+    arWorldRoot.add(ar2Mesh);        
+        
     //loadSpine(arWorldRoot)
 	onRenderFcts.push(function(delta){
 		
