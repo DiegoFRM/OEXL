@@ -213,6 +213,7 @@ function loadSpine(objectAdd,markId){
 	var z
 	ar1BadMesh.visible =false;
 	videoMesh.visible = false;
+	ar2Mesh.visible = false;
 console.log("loadSpine")
 	switch(markId){
 		case "ar1":
@@ -232,11 +233,12 @@ console.log("loadSpine")
 		break;
 		case "ar1B":
 		ar1BadMesh.visible = true;
-            ar2Mesh.visible = false;
+        ar2Mesh.visible = false;
 		number = 4;
 		scale = 0.05;
 		z = 15;
 		break;
+            
 		case "ar2":
 		ar2Mesh.visible = true;
 		number = 4;
