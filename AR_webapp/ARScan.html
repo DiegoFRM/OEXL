@@ -20,9 +20,10 @@
   	</div>
   	<div style='position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
   	</div>
+    
   	
   	<script type="text/javascript">
-        alert("change 4")
+        alert("change 3")
   		window.addEventListener("touchstart",function(){
   			console.log("touch window")
   			videoElement.play();
@@ -209,6 +210,7 @@
     mesh.position.y =0.1;
     arWorldRoot.add(mesh)*/
 
+    //El de buena 
     var texture = new THREE.TextureLoader().load( "assets/ar1Bad_sky.png" );
    	var material = new THREE.MeshBasicMaterial({map: texture});
     var geometry = new THREE.PlaneGeometry(200, 220);
@@ -218,26 +220,9 @@
     ar1BadMesh.position.z = -10;
     arWorldRoot.add(ar1BadMesh);
 
-/*    var texture = new THREE.TextureLoader().load( "assets/ar1Bad_floor.png" );
-   	var material = new THREE.MeshBasicMaterial({map: texture});
-    var geometry = new THREE.PlaneGeometry(200, 100);
-    var mesh = new THREE.Mesh(geometry, material);
-    //ar1BadMesh.rotation.x = -Math.PI/2;
-    mesh.position.y = -60;
-    mesh.position.z=50;
- 	ar1BadMesh.add(mesh)
- 	ar1BadMesh.visible = false;
-
- 	var texture = new THREE.TextureLoader().load( "assets/ar1Bad_house.png" );
-   	var material = new THREE.MeshBasicMaterial({map: texture, transparent:true});
-    var geometry = new THREE.PlaneGeometry(100, 60);
-    var mesh2 = new THREE.Mesh(geometry, material);
-    //ar1BadMesh.rotation.x = -Math.PI/2;
-    mesh2.position.y = 5;
-    mesh2.position.z=100;
-    //TweenMax.to(mesh2,1,{alpha:0,yoyo:true,repeat:-1})
-    ar1BadMesh.add(mesh2)*/
-
+        
+/*
+        //Hiro
     var texture = new THREE.TextureLoader().load( "assets/raul.jpg" );
    	var material = new THREE.MeshBasicMaterial({map: texture});
     var geometry = new THREE.PlaneGeometry(200, 220);
@@ -246,8 +231,11 @@
     ar2Mesh.position.y=-200;
     ar2Mesh.position.z = -10;
     arWorldRoot.add(ar2Mesh);          
+*/        
         
+  
         
+        //el codigo de malo 
     var texture = new THREE.VideoTexture(videoElement);
     texture.minFilter = THREE.LinearFilter;
 	texture.magFilter = THREE.LinearFilter;
