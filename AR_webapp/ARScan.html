@@ -14,7 +14,7 @@
   <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
       
   	<div style="position:absolute; top:100%;" >
-  		<video id="videoElement" src="assets/SampleVideo.mp4" width="320" height="240" playsinline loop autoplay muted style="display:none" >
+  		<video id="videoElement" src="assets/GBF_demo.mp4" width="320" height="240" playsinline loop autoplay muted style="display:none" >
 		 
 		</video>
   	</div>
@@ -22,7 +22,7 @@
   	</div>
   	
   	<script type="text/javascript">
-        alert("change 1")
+        alert("change 2")
   		window.addEventListener("touchstart",function(){
   			console.log("touch window")
   			videoElement.play();
@@ -253,7 +253,7 @@
 	texture.magFilter = THREE.LinearFilter;
 	texture.format = THREE.RGBFormat;
    	var material = new THREE.MeshBasicMaterial({map: texture});
-    var geometry = new THREE.PlaneGeometry(200, 220);
+    var geometry = new THREE.PlaneGeometry(400, 300);
     var videoMesh = new THREE.Mesh(geometry, material);
     videoMesh.rotation.x = -Math.PI/2;
     videoMesh.position.y=-200;
