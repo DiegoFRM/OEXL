@@ -22,7 +22,7 @@
   	</div>
   	
   	<script type="text/javascript">
-        alert("change 2")
+        alert("change 3")
   		window.addEventListener("touchstart",function(){
   			console.log("touch window")
   			videoElement.play();
@@ -253,7 +253,7 @@
 	texture.magFilter = THREE.LinearFilter;
 	texture.format = THREE.RGBFormat;
    	var material = new THREE.MeshBasicMaterial({map: texture});
-    var geometry = new THREE.PlaneGeometry(400, 300);
+    var geometry = new THREE.PlaneGeometry(200, 100);
     var videoMesh = new THREE.Mesh(geometry, material);
     videoMesh.rotation.x = -Math.PI/2;
     videoMesh.position.y=-200;
