@@ -25,8 +25,16 @@ if(this.el.object3D.visible == true){
   this.toggle = false;
     this.vid.pause();
     }
-  }
+  }      
+    
 });
+      
+  		window.addEventListener("touchstart",function(){
+  			console.log("touch window")
+  			document.querySelector("#vid").play();
+  		},false)      
+  
+      
   </script>
     
     
