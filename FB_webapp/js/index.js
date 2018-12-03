@@ -1,12 +1,12 @@
-const idGame = 'cuestionario';
-const firestore = firebase.firestore();
-const settings = {/* your settings... */ timestampsInSnapshots: true};
+var idGame = 'cuestionario';
+var firestore = firebase.firestore();
+var settings = {/* your settings... */ timestampsInSnapshots: true};
 firestore.settings(settings);    
     
 
 function guardar(){
      firestore.collection("users").add({
-    first: "Ada",
+    first: "Prueba1",
     last: "Lovelace",
     born: 1815,
     address:{
@@ -15,11 +15,15 @@ function guardar(){
     }
 })
 .then(function(docRef) {
+        
     console.log("Document written with ID: ", docRef.id);
+       idGame = docRef.id;
+    
 })
 .catch(function(error) {
     console.error("Error adding document: ", error);
 });   
+      
 }
 
 /*
@@ -34,6 +38,7 @@ function loadData(){
 }*/
 
 var loadData = () => {
+    
     firestore.collection("users").doc(idGame).get().then((querySnapshot) => {
         console.log(querySnapshot.data());
     });
