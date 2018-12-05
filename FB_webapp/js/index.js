@@ -73,26 +73,44 @@ var loadData = () => {
 //firebase.database().ref("26839/eopUiANzBwYlo8FZYdEO").get();
 
 function joinGame(){
-//    firestore.collection("26839").doc("eopUiANzBwYlo8FZYdEO")
-//    .onSnapshot(function(doc) {
-//        if(doc.data().team1.p1.name == ""){
-//            setPlayer1()
-//        }else{
-//            setPlayer2()
-//        }
-//    });
-    
+
      firestore.collection("26839").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
            if(doc.data().team1.p1.name == ""){
-            setPlayer1()
+            setPlayer1();
+            playerNum = 1;
+            
         }else{
-            setPlayer2()
+            setPlayer2();
+            playerNum = 2;
         }
     });
     
      });
+    
+    $("#textoPlayer").html("<h2>¡Listo! esperando al otro jugador</h2>");
 }  
+
+function deleteData(){
+         var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+        ide.update({
+             scorep1:0,
+             scorep2:0,
+            startgame:false,
+            team1:{
+            p1:{
+                name:"",
+            }
+            }, team2:{
+            p1:{
+                name:"",
+            } 
+            }
+        });
+    
+        $("#Iniciar").show();
+}
 
 function setPlayer1(){
         var pin = firestore.collection("26839");
@@ -101,7 +119,6 @@ function setPlayer1(){
             team1:{
             p1:{
                 name:$("#enterName").val(),
-                score:""
             }
             }
         });
@@ -113,12 +130,43 @@ function setPlayer2(){
             team2:{
             p1:{
                 name:$("#enterName").val(),
-                score:""
-            } 
+                } 
             }
         });
 }
 
+function InitGame(){
+        var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+        ide.update({
+            startgame:
+            1
+            
+        });
+    
+    $("#Iniciar").hide();
+}
+
+
+    function sendScore(scoreAnswer){
+        
+        var pin = firestore.collection("26839");
+        var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
+        if(playerNum == 1){
+            ide.update({
+            scorep1:
+            scoreAnswer
+            
+            });
+        }else{
+            ide.update({
+            scorep2:
+            scoreAnswer
+            
+            });  
+        }
+
+    }
  
 var realTime  = () => {
 
@@ -127,7 +175,16 @@ var realTime  = () => {
         console.log("Current data: ", doc.data());
         $("#t1p1").text(doc.data().team1.p1.name);
         $("#t2p1").html(doc.data().team2.p1.name);
-       
+        $("#Scorep1").find("span").html(doc.data().scorep1);
+        $("#Scorep2").find("span").html(doc.data().scorep2);
+        if(doc.data().startgame == 1){
+            $("#enterGamePlayer").hide();
+            $("#Preguntas").show();
+        }else{
+            $("#enterGamePlayer").show();
+            $("#Preguntas").hide();
+        }
+
     });
   
 }

@@ -8,11 +8,17 @@
   crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> 
 <!--<link rel="stylesheet" href="css/style.css">-->  
-<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">    
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">    
+
     <style>
         body{
             margin: 0;
             padding: 0;
+        }
+        
+                h1{
+            font-family: 'Lobster', cursive;
         }
         
         .header{
@@ -22,26 +28,28 @@
         .maincontent{
             position: relative;
             background-color: #090977;
-            color:#FFF;
             width: 80%;
             left: 10%;
-            display:flex;
-            justify-content:space-around;
-            align-items: center;
             border-radius: 1vw;
             text-align: center;
-            background-image: url("img/bg1.jpg");
+            color:#FFF;
+            background-image: url("img/game-background.jpg");
+            background-position: center;
         }
-        #Iniciar,
+        
+        #Preguntas{
+            position: relative;
+            width: 80%;
+            left: 10%;
+            border-radius: 1vw;
+            text-align: center;
+        }
+        
         #reiniciar,
         #jointeam{
             max-width: 40%;
             text-align: center;
             
-        }
-        
-        h1{
-            font-family: 'Lobster', cursive;
         }
         
         .entername{
@@ -59,44 +67,39 @@
     <h1>Demo Juego</h1>
     </div>
 
+<div id="enterGamePlayer" class="maincontent jumbotron">  
+        <h2><div id="textoPlayer">¡Pon tu apodo para entrar al juego!</div> </h2>
+    <div id="jointeam" class="container">
+        
+        <h2>unirte al Juego</h2>
+        <div class="row">
+        <textarea id="enterName" class="entername col-xs-12" rows="1" cols="1" maxlength="10"></textarea>
+         <button class="col-xs-12" onclick="joinGame();">Unirte</button>
+            </div>
+    </div> 
     
-<!--
-    <button onclick="createGame();">Crear Nuevo</button>
-    <button onclick="loadData();">Cargar Datos</button>
--->
-   <div id="scene1">
-<div class="maincontent jumbotron">  
-    <div id="team1"  class="">
-        <h2>Oponente 1</h2>
-        <div id="t1p1">Esperando jugador 1</div>
-        <div id="Scorep1">
-            Score: <span></span>
-        </div>
+    </div>  
+
+    
+<div id="Preguntas" class="container jumbotron row">
+    <div id="Pregunta" class="container col-xs-12">
+       <h1> Cuanto es 2 + 2</h1>
     </div>
-    <div id="team2"  class="">
-        <h2>Oponente 2</h2>
-        <div id="t2p1">Esperando jugador 2 </div>
-        <div id="Scorep2">
-            Score: <span></span>
-        </div>
-    </div> 
-</div>  
-    <div id="Iniciar" class="container">
+    <div id="ans1" class="container col-xs-12 btn btn-success">
+        4
+    </div>
+    <div id="ans2" class="container col-xs-12 btn btn-info">
+        3
+    </div>
+    <div id="ans3" class="container col-xs-12 btn btn-primary">
+        2
+    </div>
+    <div id="ans4" class="container col-xs-12 btn btn-danger">
+        Todas las anteriores
+    </div>
+</div>    
         
-        <h2>Iniciar Juego</h2>
-        <div class="row">
-         <button class="col-xs-12" onclick="InitGame();">Iniciar</button>
-            </div>
-    </div> 
     
-    <div id="reiniciar" class="container">
-        
-        <h2>Borrar valores</h2>
-        <div class="row">
-         <button class="col-xs-12" onclick="deleteData();">Borrar Datos</button>
-            </div>
-    </div>       
-   </div> 
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
 <script>
@@ -110,6 +113,30 @@
     messagingSenderId: "1093820685915"
   };
   firebase.initializeApp(config);
+    
+    var playerNum;
+    var scoreAnswer = 0;
+    var answers = [
+        10,9,5,0
+    ]
+    
+    for(var i = 1;i<=4;i++){
+        $("#ans" + i).attr("index",i-1)
+        $("#ans" + i).click(function(){
+            scoreAnswer = answers[parseInt($(this).attr("index" ))];
+            sendScore(scoreAnswer);
+            if(scoreAnswer == 10){
+                swal("¡Muy bien!", "Presiona el botón para continuar!", "success");
+            }else{
+                swal("¡Upss!", "¡La respuesta correcta es 4!");
+            }
+        });
+    }
+    
+
+    
+    
+    
 </script> 
 <script src="js/index.js"></script>    
 
