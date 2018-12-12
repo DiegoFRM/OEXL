@@ -9,13 +9,18 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> 
 <!--<link rel="stylesheet" href="css/style.css">-->  
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/jquery.gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
 
     <style>
-        body{
-            margin: 0;
-            padding: 0;
-        }
+        body {
+	width: 100vw;
+	height: 100vh;
+	color: #fff;
+	 background: linear-gradient(-45deg,#5313ba, #ad0ee8,#5313ba);
+}
+
         
                 h1{
             font-family: 'Lobster', cursive;
@@ -23,27 +28,22 @@
         
         .header{
             text-align: center;
+            padding: 1vw;
+            position: absolute;
+            z-index: 12;
+            width: 100%;
         }
         
         .maincontent{
             position: relative;
-            background-color: #090977;
             width: 80%;
             left: 10%;
             border-radius: 1vw;
             text-align: center;
             color:#FFF;
-            background-image: url("img/game-background.jpg");
-            background-position: center;
         }
         
-        #Preguntas{
-            position: relative;
-            width: 80%;
-            left: 10%;
-            border-radius: 1vw;
-            text-align: center;
-        }
+
         
         #reiniciar,
         #jointeam{
@@ -61,42 +61,186 @@
             font-size: 1.5em;
             color:#000;
         }
+        
+        
+        #enterGamePlayer{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+        
+        #Preguntas{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0%;
+            top: 10%;
+            border-radius: 1vw;
+            text-align: center;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #questionWindow{
+            
+        }
+        
+        #question_text{
+            position: relative;
+            font-weight: bold;
+            font-size: 1.5em;
+            text-align: center;
+            padding: 1vw;
+            width: 80%;
+            left: 10%;
+        }
+        
+        .answers{
+            position: relative;
+            font-size: 1.5em;
+            text-align: center;
+            padding: 2vw;
+            margin-bottom: 2vw;
+            width: 100%;
+            border:3px solid #59f2ff;
+            background:  linear-gradient(0deg,#2f8fff, #7b0ee8,#2f8fff);
+            border-radius: 1vw;
+        }        
+        
+        #ButtonStart{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        #ButtonStart img{
+            position: relative;
+            left: 50%;
+            transform: translate(-50%,100%);
+        }
+        
+        #contenedor{
+           
+	margin: 10px auto;
+	width: 540px;
+	height: 115px;
+}
+.reloj{
+	float: left;
+	font-size: 80px;
+	font-family: Courier,sans-serif;
+	color: #363431;
+     margin-top: 40%;
+}
+.boton{
+	outline: none;
+	border: 1px solid #363431;
+	color: white;
+	width: 128px;
+	height: 30px;
+	text-shadow: 0px -1px 1px black;
+	font-size: 20px;
+	border-radius: 5px;
+	font-family: Helvetica;
+	cursor: pointer;
+	background-image: linear-gradient(#3aad02,#2c6f05);
+}
+.boton:active{
+	background-image: linear-gradient(#2c6f05,#3aad02);
+}
+.boton:hover{
+	box-shadow: 0px 0px 14px #3aad02;
+}
+        
+        #texto_empieza{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }    
+        
+        
+        #texto_empieza .text_1,
+        #texto_empieza .text_2,
+        #texto_empieza .text_3{
+            position: absolute;
+            font-size: 10vw;
+            font-weight: bolder;
+            color: #c1fdff;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            z-index: 123;
+            opacity: 0;
+            
+        }        
+        
     </style>
 <body>
     <div class="header container">
-    <h1>Demo Juego</h1>
+        <img src="img/logo1.png">
     </div>
 
-<div id="enterGamePlayer" class="maincontent jumbotron">  
-        <h2><div id="textoPlayer">¡Pon tu apodo para entrar al juego!</div> </h2>
+<div id="enterGamePlayer" class="maincontent">  
+        <h2><div id="textoPlayer">¡Pon tu Nombre para entrar al juego!</div> </h2>
     <div id="jointeam" class="container">
         
         <h2>unirte al Juego</h2>
         <div class="row">
         <textarea id="enterName" class="entername col-xs-12" rows="1" cols="1" maxlength="10"></textarea>
-         <button class="col-xs-12 btn btn-success" onclick="joinGame();">Unirte</button>
+         <button id="joinBtn" class="col-xs-12 btn btn-success" onclick="joinGame();">Unirte</button>
             </div>
     </div> 
     
     </div>  
 
+<div id="ButtonStart">
+    <div id="texto_empieza">
+        <p class="text_1">1</p>
+        <p class="text_2">2</p>
+        <p class="text_3">3</p>
+    </div>
     
-<div id="Preguntas" class="container jumbotron row">
-    <div id="Pregunta" class="container col-xs-12">
-       <h1> Cuanto es 2 + 2</h1>
+    <div id="buttonRed">
+        <img class="inactive-redbutton" src="img/buttonred_inactive.svg">
+    
     </div>
-    <div id="ans1" class="container col-xs-12 btn btn-success">
-        4
-    </div>
-    <div id="ans2" class="container col-xs-12 btn btn-info">
-        3
-    </div>
-    <div id="ans3" class="container col-xs-12 btn btn-primary">
-        2
-    </div>
-    <div id="ans4" class="container col-xs-12 btn btn-danger">
-        Todas las anteriores
-    </div>
+    
+    <div id="contenedor">
+		<div class="reloj" id="Horas">00</div>
+		<div class="reloj" id="Minutos">:00</div>
+		<div class="reloj" id="Segundos">:00</div>
+		<div class="reloj" id="Centesimas">:00</div>
+
+	<!--	<input type="button" class="boton" id="inicio" value="Start &#9658;" onclick="inicio();">
+		<input type="button" class="boton" id="continuar" value="Resume &#8634;" onclick="inicio();" disabled>
+		<input type="button" class="boton" id="reinicio" value="Reset &#8635;" onclick="reinicio();" disabled>
+-->
+	</div>
+</div>    
+    
+    
+<div id="Preguntas" class="row">
+        <div id="questionWindow">
+            <div id="question_text">
+                   Las habilidades que le ayudan a llevar en orden su ruta a un vendedor son:
+            </div>
+            <div id="ans1" class="answers">
+                   a) Facilidad de negociación y argumentación
+
+            </div>
+            <div id="ans2" class="answers">
+                   b) Facilidad de negociación y argumentación
+
+            </div>
+            <div id="ans3" class="answers">
+                   c) Facilidad de negociación y argumentación
+
+            </div>
+        </div>
 </div>    
         
     
@@ -133,9 +277,83 @@
         });
     }
     
+    
+    $("#buttonRed").mousedown(function(){
+        $(this).find("img").attr("src","img/buttonred_active.svg");
+        	clearInterval(control);
+            var timeTotal = horas + minutos + segundos + centesimas
+            timeRedButton(parseInt(timeTotal));
+        alert(timeTotal)
+    })
+    
+    $("#buttonRed").mouseup(function(){
+        $(this).find("img").attr("src","img/buttonred_inactive.svg");
+    })
+    
 
     
+var centesimas = 0;
+var segundos = 0;
+var minutos = 0;
+var horas = 0;
+function inicio () {
+	control = setInterval(cronometro,10);
+}
     
+function parar () {
+	clearInterval(control);
+	document.getElementById("parar").disabled = true;
+	document.getElementById("continuar").disabled = false;
+}
+function reinicio () {
+	clearInterval(control);
+	centesimas = 0;
+	segundos = 0;
+	minutos = 0;
+	horas = 0;
+	Centesimas.innerHTML = ":00";
+	Segundos.innerHTML = ":00";
+	Minutos.innerHTML = ":00";
+	Horas.innerHTML = "00";
+	document.getElementById("inicio").disabled = false;
+	document.getElementById("parar").disabled = true;
+	document.getElementById("continuar").disabled = true;
+	document.getElementById("reinicio").disabled = true;
+}
+function cronometro () {
+	if (centesimas < 99) {
+		centesimas++;
+		if (centesimas < 10) { centesimas = "0"+centesimas }
+		Centesimas.innerHTML = ":"+centesimas;
+	}
+	if (centesimas == 99) {
+		centesimas = -1;
+	}
+	if (centesimas == 0) {
+		segundos ++;
+		if (segundos < 10) { segundos = "0"+segundos }
+		Segundos.innerHTML = ":"+segundos;
+	}
+	if (segundos == 59) {
+		segundos = -1;
+	}
+	if ( (centesimas == 0)&&(segundos == 0) ) {
+		minutos++;
+		if (minutos < 10) { minutos = "0"+minutos }
+		Minutos.innerHTML = ":"+minutos;
+	}
+	if (minutos == 59) {
+		minutos = -1;
+	}
+	if ( (centesimas == 0)&&(segundos == 0)&&(minutos == 0) ) {
+		horas ++;
+		if (horas < 10) { horas = "0"+horas }
+		Horas.innerHTML = horas;
+	}
+}    
+    
+
+    $("#ButtonStart").hide();
     
 </script> 
 <script src="js/index.js"></script>    

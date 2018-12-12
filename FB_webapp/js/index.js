@@ -89,6 +89,8 @@ function joinGame(){
      });
     
     $("#textoPlayer").html("<h2>¡Listo! esperando al otro jugador</h2>");
+    $("#joinBtn").hide();
+    $("#enterName").hide();
 }  
 
 function deleteData(){
@@ -151,6 +153,30 @@ function InitGame(){
 }
 
 
+function timeRedButton(timer){
+        var pin = firestore.collection("26839");
+        var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
+        if(playerNum == 1){
+            ide.update({
+            timep1:
+            timer
+            
+            });
+        }else{
+            ide.update({
+            timep2:
+            timer
+            
+            });  
+        }
+    
+    //var count = setTimeout(reviewTime(), 3000);
+
+}
+
+
+
+
     function sendScore(scoreAnswer){
         
         var pin = firestore.collection("26839");
@@ -171,6 +197,25 @@ function InitGame(){
 
     }
  
+
+
+    function startGame(){
+        TweenMax.fromTo($(".text_3"),2,{alpha:1,scale:1},{alpha:0,scale:5,delay:1});
+    TweenMax.fromTo($(".text_2"),2,{alpha:1,scale:0},{alpha:0,scale:5,delay:3});
+    TweenMax.fromTo($(".text_1"),2,{alpha:1,scale:0},{alpha:0,scale:5,delay:5,onComplete:startButtonRed});
+    
+    function startButtonRed(){
+        $("#buttonRed").show();
+         $("#contenedor").show();
+         $("#texto_empieza").hide();
+        inicio ();
+    }
+
+    $("#buttonRed").hide();
+    $("#contenedor").hide();
+
+    }
+
 var realTime  = () => {
 
     firestore.collection("26839").doc("eopUiANzBwYlo8FZYdEO")
@@ -192,10 +237,12 @@ var realTime  = () => {
         $("#Scorep2").find("span").html(doc.data().scorep2);
         if(doc.data().startgame == 1){
             $("#enterGamePlayer").hide();
-            $("#Preguntas").show();
+            $("#ButtonStart").show();
+            startGame();
         }else{
             $("#enterGamePlayer").show();
-            $("#Preguntas").hide();
+            $("#ButtonStart").hide();
+            //$("#Preguntas").hide();
         }
 
     });
