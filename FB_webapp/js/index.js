@@ -115,10 +115,11 @@ function deleteData(){
 function setPlayer1(){
         var pin = firestore.collection("26839");
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+    //var ide = pin.doc("eopUiANzBwYlo8FZYdEO").collection("team1").doc("p1")
         ide.update({
             team1:{
             p1:{
-                name:$("#enterName").val(),
+                name:$("#enterName").val()
             }
             }
         });
@@ -129,7 +130,7 @@ function setPlayer2(){
         ide.update({
             team2:{
             p1:{
-                name:$("#enterName").val(),
+                name:$("#enterName").val()
                 } 
             }
         });
@@ -145,6 +146,8 @@ function InitGame(){
         });
     
     $("#Iniciar").hide();
+    $("#Scene1").hide();
+   $("#Scene2").show();
 }
 
 
@@ -174,7 +177,17 @@ var realTime  = () => {
     .onSnapshot(function(doc) {
         console.log("Current data: ", doc.data());
         $("#t1p1").text(doc.data().team1.p1.name);
+          if(doc.data().team1.p1.name != ""){
+            $("#team1").find("h2").html("¡Listo!");
+          }else{
+             $("#team1").find("h2").html("Oponente 1"); 
+          }
         $("#t2p1").html(doc.data().team2.p1.name);
+        if(doc.data().team2.p1.name != ""){
+            $("#team2").find("h2").html("¡Listo!");
+          }else{
+             $("#team2").find("h2").html("Oponente 2"); 
+          }
         $("#Scorep1").find("span").html(doc.data().scorep1);
         $("#Scorep2").find("span").html(doc.data().scorep2);
         if(doc.data().startgame == 1){

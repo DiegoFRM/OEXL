@@ -8,29 +8,43 @@
   crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> 
 <!--<link rel="stylesheet" href="css/style.css">-->  
-<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">    
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Lalezar" rel="stylesheet">  
     <style>
         body{
             margin: 0;
             padding: 0;
+            overflow: hidden;
+            color:#FFF;
+        }
+        
+        #bgbackground{
+            position: absolute;
+            width: 100%;
+/*            filter: blur(5px);*/
+        } 
+        #bgbackground video{
+            position: absolute;
+/*            filter: blur(5px);*/
+        }
+        
+        #logo{
+            position: absolute;
+            width: 60%;
+            left: 50%;
+            top:30%;
+            transform: translate(-50%,-50%);
+            z-index: 2;
+/*            filter: blur(5px);*/
         }
         
         .header{
             text-align: center;
         }
         
-        .maincontent{
-            position: relative;
-            background-color: #090977;
-            color:#FFF;
-            width: 80%;
-            left: 10%;
-            display:flex;
-            justify-content:space-around;
-            align-items: center;
-            border-radius: 1vw;
-            text-align: center;
-            background-image: url("img/bg1.jpg");
+        .lalezar-font{
+            
+            font-family: 'Lalezar', cursive;  
         }
         #Iniciar,
         #reiniciar,
@@ -40,8 +54,12 @@
             
         }
         
-        h1{
-            font-family: 'Lobster', cursive;
+        #reiniciar h2,
+        #Iniciar h2{
+            
+           background: -webkit-linear-gradient(#ffffff, #626262);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
         
         .entername{
@@ -53,53 +71,180 @@
             font-size: 1.5em;
             color:#000;
         }
+        
+        #menuMain{
+            position: absolute;
+            z-index: 12;
+            left: 50%;
+            width: 100%;
+            top:75%;
+            transform: translate(-50%,-50%);
+        }
+        
+        .container-player{
+            background-color: #FFF;
+        }
+        
+        #team2{
+           position: absolute;
+            right: 1%;
+            top: 70%;  
+            text-align: center; 
+           background: -webkit-linear-gradient(#578bff, #a5cbff);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        #team1{
+            
+            position: absolute;
+            left: 1%;
+            top: 70%;
+            text-align: center; 
+           background: -webkit-linear-gradient(#ff6e6e, #fff03f);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+            
+
+        }
+        
+        .score-text{
+            font-size: 3vw;
+        }
+        
+        .name-Oponent{
+            font-size: 3vw;
+        }
+        
+        .btn{
+            font-size: 2vw;
+        }
+        
+        #Scene1{
+            display: block;
+        }
+        
+        #Scene2{
+            position: absolute;
+            width: 100%;
+            left: 0%;
+            transform: scale(0.9);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+             font-family: 'Lalezar', cursive;
+            text-align: center;
+        }
+        
+        #loadQuestions-I,
+        #loadQuestions-C{
+            text-align: center;
+            margin-left: 1vw;
+        }
+        
+        #loadQuestions-I .questionsBox{
+          background-color: #00ff4e;  
+        }
+        
+        .questionsBox{
+            background-color: deepskyblue;
+            font-size: 1.5em;
+            border-radius: 1vw;
+            padding: 1.3vw;
+            width: 49%;
+            margin: 0.2vw;
+            
+        }
+        
     </style>
 <body>
-    <div class="header container">
-    <h1>Demo Juego</h1>
-    </div>
-
+    <div id="bgbackground">
+         <video id="videobg" loop autoplay src="img/bg.mp4"></video>
     
+    </div>
+    <div id="Scene1">
+        <div id="logo">
+            <img src="img/logo2.png">
+        </div>
 <!--
     <button onclick="createGame();">Crear Nuevo</button>
     <button onclick="loadData();">Cargar Datos</button>
 -->
-   <div id="scene1">
-<div class="maincontent jumbotron">  
-    <div id="team1"  class="">
+       <div id="menuMain" class="lalezar-font">
+               <div id="Iniciar" class="container">
+                    <h2></h2>
+                    <div class="row">
+                        <button class="col-xs-12 btn btn-success" onclick="InitGame();">Iniciar</button>
+                    </div>
+                </div> 
+                <div id="reiniciar" class="container">
+                    <h2></h2>
+                    <div class="row">
+                    <button class="col-xs-12 btn btn-danger" onclick="deleteData();">Borrar Datos</button>
+                    </div>
+                </div>    
+       </div> 
+    </div>
+    
+    <div id="Scene2">
+    <div id="c-vendedor">
+        <h2>Características del vendedor</h2>
+        <div id="loadQuestions-C" class="row">
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+        </div>
+        </div>
+    <div id="i-vendedor">
+        <h2>Imagen del vendedor</h2>
+        <div id="loadQuestions-I" class="row">
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+                <div class="questionsBox col-xs-6">100</div>
+        </div>
+        </div>
+    
+    </div>
+    
+    <div class="container-player">
+        <div id="team1"  class="lalezar-font">
         <h2>Oponente 1</h2>
-        <div id="t1p1">Esperando jugador 1</div>
-        <div id="Scorep1">
+        <div id="t1p1" class="name-Oponent"></div>
+        <div id="Scorep1" class="score-text">
+            Score: <span></span>
+        </div>
+        </div>
+    </div>
+        <div class="container-player">
+    <div id="team2"  class="lalezar-font">
+        <h2>Oponente 2</h2>
+        <div id="t2p1" class="name-Oponent"></div>
+        <div id="Scorep2" class="score-text">
             Score: <span></span>
         </div>
     </div>
-    <div id="team2"  class="">
-        <h2>Oponente 2</h2>
-        <div id="t2p1">Esperando jugador 2 </div>
-        <div id="Scorep2">
-            Score: <span></span>
-        </div>
-    </div> 
-</div>  
-    <div id="Iniciar" class="container">
-        
-        <h2>Iniciar Juego</h2>
-        <div class="row">
-         <button class="col-xs-12 btn btn-success" onclick="InitGame();">Iniciar</button>
-            </div>
-    </div> 
-    
-    <div id="reiniciar" class="container">
-        
-        <h2>Borrar Datos</h2>
-        <div class="row">
-         <button class="col-xs-12 btn btn-danger" onclick="deleteData();">Borrar Datos</button>
-            </div>
-    </div>       
-   </div> 
+    </div>
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
 <script>
+    var video = document.getElementById("videobg");
+
+    
   // Initialize Firebase
   var config = {
     apiKey: "AIzaSyBLIfGhY9masfA0HIln3WLda0-fbQSv_cA",
@@ -110,6 +255,31 @@
     messagingSenderId: "1093820685915"
   };
   firebase.initializeApp(config);
+    
+ swal("¿Estás listo?",{
+  button: {
+    text: "Ok",
+    className: "startVideo"   
+  },
+   closeOnClickOutside: false    
+});
+    
+    $(".startVideo").click(function(){
+            video.play();
+    });
+    
+   $("#Scene1").show();
+   $("#Scene2").hide();
+    
+    $(".questionsBox").click(function(){
+        swal("Aquí va la pregunta",{
+          button: {
+            text: "Ok"   
+          },
+           closeOnClickOutside: false    
+        });
+    });
+    
 </script> 
 <script src="js/index.js"></script>    
 
