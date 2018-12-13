@@ -2,8 +2,91 @@ var idGame = 'cuestionario';
 var firestore = firebase.firestore();
 var t1p1,t2p1
 var settings = {/* your settings... */ timestampsInSnapshots: true};
+var selectAnswer = 0;
+var startJeopardy = 0;
 firestore.settings(settings);    
     
+
+    var questions_c = [
+        {
+            question:"El vendedor se debe distinguir  principalmente por ser:",
+            answer1:"Puntual, disciplinado y apegado a las normas",
+            answer2:"Entusiasta, alegre y conversador",
+            answer3: "Humilde, responsable y estricto",
+            correct:1
+        },
+        {
+            question:"Es la actitud más importante en Grupo Bimbo frente al cliente:",
+            answer1:"Actitud de respeto",
+            answer2:"Actitud de amabilidad",
+            answer3:"Actitud de servicio",
+            correct:3
+        },
+        {
+            question:"Son los principales valores de un vendedor:",
+            answer1:"Responsable y empático",
+            answer2:"Integro y honrado",
+            answer3:"Humilde y tolerante",
+            correct:2
+        },
+        {
+            question:"Son características del vendedor que le ayudan en su labor de venta:",
+            answer1:"Entusiasta, alegre y dinámico",
+            answer2:"Sencillo, participativo y humilde",
+            answer3:"Prudente, ágil y conversador",
+            correct:1
+        },
+        {
+            question:"Para ganarse la confianza del cliente, un vendedor debe ser:",
+            answer1:"Dinámico y prudente",
+            answer2:"Amable, sencillo y respetuoso",
+            answer3:"Ágil y conversador",
+            correct:2
+        },
+        {
+            question:"Las habilidades que le ayudan a llevar en orden su ruta a un vendedor son:",
+            answer1:"Seguridad y dinamismo",
+            answer2:"Amabilidad y coordinación",
+            answer3:"Proactividad y autocontrol",
+            correct:3
+        },
+        {
+            question:"Las características que le ayudan al vendedor a trabajar mejor con sus compañeros son:",
+            answer1:"Facilidad de negociación y argumentación",
+            answer2:"Facilidad de palabra e inclusión",
+            answer3:"Facilidad para relaciones interpersonales y trabajo en equipo",
+            correct:3
+        },
+        {
+            question:"Las habilidades que le ayudan a un vendedor a cerrar una venta son:",
+            answer1:"Habilidad de liderazgo y creatividad",
+            answer2:"Habilidad para argumentar y negociar",
+            answer3:"Habilidad numérica y matemática",
+            correct:2
+        },
+        {
+            question:"Una característica que no puede faltar en un vendedor es:",
+            answer1:"Capacidad de iderazgo",
+            answer2:"Sentido de independencia",
+            answer3:"Gusto por la ventas",
+            correct:3
+        },
+        {
+            question:"De esta manera, el trabajo del vendedor se más cercano al cliente:",
+            answer1:"Ganando la confianza del cliente",
+            answer2:"Asignando un horario establecido de visita",
+            answer3:"Dándole obsequios y promociones especiales",
+            correct:1
+        },
+        {
+            question:"La habilidad que le ayuda al vendedor a  evitar pérdidas es:",
+            answer1:"Habilidad numérica",
+            answer2:"Habilidad de trabajo en equipo",
+            answer3:"Habilidad de palabra",
+            correct:4
+        }
+    ]
+
 
 var makeid = function() {
 		var text = "";
@@ -97,8 +180,11 @@ function deleteData(){
          var pin = firestore.collection("26839");
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
         ide.update({
+             QuestionNumber:0,
              scorep1:0,
              scorep2:0,
+             timep1:0,
+             timep2:0,
             startgame:false,
             team1:{
             p1:{
@@ -138,7 +224,14 @@ function setPlayer2(){
         });
 }
 
+function gotoScene2(){
+    $("#Iniciar").hide();
+    $("#Scene1").hide();
+   $("#Scene2").show();
+}
+
 function InitGame(){
+    startJeopardy = 0;
         var pin = firestore.collection("26839");
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
         ide.update({
@@ -146,12 +239,18 @@ function InitGame(){
             1
             
         });
-    
-    $("#Iniciar").hide();
-    $("#Scene1").hide();
-   $("#Scene2").show();
 }
 
+
+function restartQUestion(){
+            var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+        ide.update({
+            startgame:
+            2
+            
+        });
+}
 
 function timeRedButton(timer){
         var pin = firestore.collection("26839");
@@ -170,11 +269,53 @@ function timeRedButton(timer){
             });  
         }
     
-    //var count = setTimeout(reviewTime(), 3000);
+    var count = setTimeout(reviewTime, 3000);
 
 }
 
+function reviewTime(){
+    var letters = ["a) ","b) " ,"c) "];
+         firestore.collection("26839").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        var numQuestion = doc.data().QuestionNumber;
+           if(doc.data().timep1 < doc.data().timep2 ){
+            if(playerNum == 1){
+              $("#ButtonStart").hide();
+               $("#Preguntas").show();
+            }else{
+                $("#Cortina").show();
+            }
+            
+        }else{
+            if(playerNum == 2){
+              $("#ButtonStart").hide();
+               $("#Preguntas").show();
+            }else{
+                $("#Cortina").show();
+            }
+            
+        }
+        
+        
+                $("#question_text").html(questions_c[numQuestion].question);
+                $("#ans1").html(letters[0] + questions_c[numQuestion].answer1);
+                $("#ans2").html(letters[1] + questions_c[numQuestion].answer2);
+                $("#ans3").html(letters[2] + questions_c[numQuestion].answer3);
+                selectAnswer = questions_c[numQuestion].correct;
+        
+    });
+    
+     });
+}
 
+function choiceQuestion(question){
+    var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
+     ide.update({
+            QuestionNumber:
+            question
+            });
+}
 
 
     function sendScore(scoreAnswer){
@@ -200,6 +341,11 @@ function timeRedButton(timer){
 
 
     function startGame(){
+        if(startJeopardy == 0){
+            
+        $("#Cortina").hide();
+        $("#enterGamePlayer").hide();
+        $("#ButtonStart").show();
         TweenMax.fromTo($(".text_3"),2,{alpha:1,scale:1},{alpha:0,scale:5,delay:1});
     TweenMax.fromTo($(".text_2"),2,{alpha:1,scale:0},{alpha:0,scale:5,delay:3});
     TweenMax.fromTo($(".text_1"),2,{alpha:1,scale:0},{alpha:0,scale:5,delay:5,onComplete:startButtonRed});
@@ -208,12 +354,16 @@ function timeRedButton(timer){
         $("#buttonRed").show();
          $("#contenedor").show();
          $("#texto_empieza").hide();
-        inicio ();
+        inicio();
     }
 
     $("#buttonRed").hide();
     $("#contenedor").hide();
-
+            
+            $("#enterGamePlayer").hide();
+            $("#ButtonStart").show();
+        startJeopardy = 1;
+        }
     }
 
 var realTime  = () => {
@@ -236,13 +386,17 @@ var realTime  = () => {
         $("#Scorep1").find("span").html(doc.data().scorep1);
         $("#Scorep2").find("span").html(doc.data().scorep2);
         if(doc.data().startgame == 1){
-            $("#enterGamePlayer").hide();
-            $("#ButtonStart").show();
             startGame();
+        }else if(doc.data().startgame == 2){
+                
+            $("#enterGamePlayer").hide();
+            $("#ButtonStart").hide();
+            $("#Cortina").show(); 
+            
         }else{
             $("#enterGamePlayer").show();
             $("#ButtonStart").hide();
-            //$("#Preguntas").hide();
+            $("#Cortina").hide();
         }
 
     });

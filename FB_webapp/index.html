@@ -134,11 +134,15 @@
             width: 100%;
             left: 0%;
             transform: scale(0.9);
+             font-family: 'Lalezar', cursive;
+            text-align: center;
+        }
+        
+        #questionsContainer{
+            width: 100%;
             display: flex;
             justify-content: space-around;
             align-items: center;
-             font-family: 'Lalezar', cursive;
-            text-align: center;
         }
         
         #loadQuestions-I,
@@ -221,7 +225,7 @@
                <div id="Iniciar" class="container">
                     <h2></h2>
                     <div class="row">
-                        <button class="col-xs-12 btn btn-success" onclick="InitGame();">Iniciar</button>
+                        <button class="col-xs-12 btn btn-success" onclick="gotoScene2();">Iniciar</button>
                     </div>
                 </div> 
                 <div id="reiniciar" class="container">
@@ -234,19 +238,22 @@
     </div>
     
     <div id="Scene2">
-    <div id="c-vendedor">
-        <h2>Características del vendedor</h2>
-        <div id="loadQuestions-C" class="row">
-                
+        <div id="questionsContainer">
+            <div id="c-vendedor">
+                <h2>Características del vendedor</h2>
+                <div id="loadQuestions-C" class="row"></div>
+            </div>
+            <div id="i-vendedor">
+                <h2>Imagen del vendedor</h2>
+                <div id="loadQuestions-I" class="row"></div>
+            </div>
         </div>
-        </div>
-    <div id="i-vendedor">
-        <h2>Imagen del vendedor</h2>
-        <div id="loadQuestions-I" class="row">
-        </div>
-        </div>
+
+
     
+                 
     </div>
+    
     
     <div class="container-player">
         <div id="team1"  class="lalezar-font">
@@ -268,6 +275,7 @@
     </div>
     <div id="questionPop">
         <div id="questionWindow">
+            <div id="closeButton" class="closeButton" style="position: absolute;right: -5%;z-index: 1;top: -10%;width: 10%;"><img src="img/closebutton.png" style="width: 100%;"></div>
             <div id="question_text">
                    Las habilidades que le ayudan a llevar en orden su ruta a un vendedor son:
             </div>
@@ -283,6 +291,8 @@
                    c) Facilidad de negociación y argumentación
 
             </div>
+                    <button class="col-xs-12 btn btn-success" style="margin-top: 3%;" onclick="InitGame();">Lanzar Pregunta</button>
+
         </div>
     </div>
 </body>
@@ -310,93 +320,17 @@
    closeOnClickOutside: false    
 });
     
+    $("#closeButton").click(function(){
+        $("#questionPop").hide();
+        restartQUestion();
+    });
+    
     $(".startVideo").click(function(){
             video.play();
     });
     
    $("#Scene1").show();
    $("#Scene2").hide();
-    
-    
-    var questions_c = [
-        {
-            question:"El vendedor se debe distinguir  principalmente por ser:",
-            answer1:"Puntual, disciplinado y apegado a las normas",
-            answer2:"Entusiasta, alegre y conversador",
-            answer3: "Humilde, responsable y estricto",
-            correct:{a1:1}
-        },
-        {
-            question:"Es la actitud más importante en Grupo Bimbo frente al cliente:",
-            answer1:"Actitud de respeto",
-            answer2:"Actitud de amabilidad",
-            answer3:"Actitud de servicio",
-            correct:{a1:3}
-        },
-        {
-            question:"Son los principales valores de un vendedor:",
-            answer1:"Responsable y empático",
-            answer2:"Integro y honrado",
-            answer3:"Humilde y tolerante",
-            correct:{a1:2}
-        },
-        {
-            question:"Son características del vendedor que le ayudan en su labor de venta:",
-            answer1:"Entusiasta, alegre y dinámico",
-            answer2:"Sencillo, participativo y humilde",
-            answer3:"Prudente, ágil y conversador",
-            correct:{a1:1}
-        },
-        {
-            question:"Para ganarse la confianza del cliente, un vendedor debe ser:",
-            answer1:"Dinámico y prudente",
-            answer2:"Amable, sencillo y respetuoso",
-            answer3:"Ágil y conversador",
-            correct:{a1:2}
-        },
-        {
-            question:"Las habilidades que le ayudan a llevar en orden su ruta a un vendedor son:",
-            answer1:"Seguridad y dinamismo",
-            answer2:"Amabilidad y coordinación",
-            answer3:"Proactividad y autocontrol",
-            correct:{a1:3}
-        },
-        {
-            question:"Las características que le ayudan al vendedor a trabajar mejor con sus compañeros son:",
-            answer1:"Facilidad de negociación y argumentación",
-            answer2:"Facilidad de palabra e inclusión",
-            answer3:"Facilidad para relaciones interpersonales y trabajo en equipo",
-            correct:{a1:3}
-        },
-        {
-            question:"Las habilidades que le ayudan a un vendedor a cerrar una venta son:",
-            answer1:"Habilidad de liderazgo y creatividad",
-            answer2:"Habilidad para argumentar y negociar",
-            answer3:"Habilidad numérica y matemática",
-            correct:{a1:2}
-        },
-        {
-            question:"Una característica que no puede faltar en un vendedor es:",
-            answer1:"Capacidad de iderazgo",
-            answer2:"Sentido de independencia",
-            answer3:"Gusto por la ventas",
-            correct:{a1:3}
-        },
-        {
-            question:"De esta manera, el trabajo del vendedor se más cercano al cliente:",
-            answer1:"Ganando la confianza del cliente",
-            answer2:"Asignando un horario establecido de visita",
-            answer3:"Dándole obsequios y promociones especiales",
-            correct:{a1:1}
-        },
-        {
-            question:"La habilidad que le ayuda al vendedor a  evitar pérdidas es:",
-            answer1:"Habilidad numérica",
-            answer2:"Habilidad de trabajo en equipo",
-            answer3:"Habilidad de palabra",
-            correct:{a1:1,a2:2,a3:3}
-        }
-    ]
     
 
    function includeQuestions(contenedor,side){
@@ -416,6 +350,7 @@
                 $("#ans1").html(letters[0] + questions_c[index].answer1);
                 $("#ans2").html(letters[1] + questions_c[index].answer2);
                 $("#ans3").html(letters[2] + questions_c[index].answer3);
+                choiceQuestion(parseInt(index));
             });       
                
     }

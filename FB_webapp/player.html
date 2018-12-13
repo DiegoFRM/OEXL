@@ -75,7 +75,7 @@
             width: 100%;
             height: 100%;
             left: 0%;
-            top: 10%;
+            top: 20%;
             border-radius: 1vw;
             text-align: center;
             display: none;
@@ -176,7 +176,18 @@
             z-index: 123;
             opacity: 0;
             
-        }        
+        }     
+        
+        #Cortina{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 6vw;
+        }
         
     </style>
 <body>
@@ -243,7 +254,7 @@
         </div>
 </div>    
         
-    
+   <div id="Cortina"> <p>Espera tu turno...</p></div> 
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
 <script>
@@ -261,19 +272,21 @@
     var playerNum;
     var scoreAnswer = 0;
     var answers = [
-        10,9,5,0
+        0,10,9,5,0
     ]
     
     for(var i = 1;i<=4;i++){
-        $("#ans" + i).attr("index",i-1)
+        $("#ans" + i).attr("index",i)
         $("#ans" + i).click(function(){
-            scoreAnswer = answers[parseInt($(this).attr("index" ))];
-            sendScore(scoreAnswer);
-            if(scoreAnswer == 10){
+            var index = parseInt($(this).attr("index" ))
+            scoreAnswer = scoreAnswer + answers[index];
+            
+            if(selectAnswer == index){
                 swal("¡Muy bien!", "Presiona el botón para continuar!", "success");
             }else{
                 swal("¡Upss!", "¡La respuesta correcta es 4!");
             }
+            sendScore(scoreAnswer);
         });
     }
     
@@ -283,7 +296,6 @@
         	clearInterval(control);
             var timeTotal = horas + minutos + segundos + centesimas
             timeRedButton(parseInt(timeTotal));
-        alert(timeTotal)
     })
     
     $("#buttonRed").mouseup(function(){
@@ -354,6 +366,7 @@ function cronometro () {
     
 
     $("#ButtonStart").hide();
+    $("#Cortina").hide();
     
 </script> 
 <script src="js/index.js"></script>    
