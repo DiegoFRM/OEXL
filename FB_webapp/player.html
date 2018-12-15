@@ -271,20 +271,20 @@
     
     var playerNum;
     var scoreAnswer = 0;
-    var answers = [
-        0,10,9,5,0
-    ]
+
     
     for(var i = 1;i<=4;i++){
         $("#ans" + i).attr("index",i)
         $("#ans" + i).click(function(){
             var index = parseInt($(this).attr("index" ))
-            scoreAnswer = scoreAnswer + answers[index];
+            
             
             if(selectAnswer == index){
                 swal("¡Muy bien!", "Presiona el botón para continuar!", "success");
+                scoreAnswer = scoreAnswer + pointsQuestion;
             }else{
-                swal("¡Upss!", "¡La respuesta correcta es 4!");
+                swal("¡Upss!", "¡Es una respuesta Incorrecta!");
+                scoreAnswer = scoreAnswer + 0;
             }
             sendScore(scoreAnswer);
         });

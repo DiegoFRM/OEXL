@@ -3,6 +3,7 @@ var firestore = firebase.firestore();
 var t1p1,t2p1
 var settings = {/* your settings... */ timestampsInSnapshots: true};
 var selectAnswer = 0;
+var pointsQuestion = 0;
 
 firestore.settings(settings);    
     
@@ -13,6 +14,7 @@ firestore.settings(settings);
             answer1:"Puntual, disciplinado y apegado a las normas",
             answer2:"Entusiasta, alegre y conversador",
             answer3: "Humilde, responsable y estricto",
+            points:50,
             correct:1
         },
         {
@@ -20,6 +22,7 @@ firestore.settings(settings);
             answer1:"Actitud de respeto",
             answer2:"Actitud de amabilidad",
             answer3:"Actitud de servicio",
+            points:75,
             correct:3
         },
         {
@@ -27,6 +30,7 @@ firestore.settings(settings);
             answer1:"Responsable y empático",
             answer2:"Integro y honrado",
             answer3:"Humilde y tolerante",
+            points:100,
             correct:2
         },
         {
@@ -34,6 +38,7 @@ firestore.settings(settings);
             answer1:"Entusiasta, alegre y dinámico",
             answer2:"Sencillo, participativo y humilde",
             answer3:"Prudente, ágil y conversador",
+            points:125,
             correct:1
         },
         {
@@ -41,6 +46,7 @@ firestore.settings(settings);
             answer1:"Dinámico y prudente",
             answer2:"Amable, sencillo y respetuoso",
             answer3:"Ágil y conversador",
+            points:150,
             correct:2
         },
         {
@@ -48,6 +54,7 @@ firestore.settings(settings);
             answer1:"Seguridad y dinamismo",
             answer2:"Amabilidad y coordinación",
             answer3:"Proactividad y autocontrol",
+            points:175,
             correct:3
         },
         {
@@ -55,6 +62,7 @@ firestore.settings(settings);
             answer1:"Facilidad de negociación y argumentación",
             answer2:"Facilidad de palabra e inclusión",
             answer3:"Facilidad para relaciones interpersonales y trabajo en equipo",
+            points:200,
             correct:3
         },
         {
@@ -62,6 +70,7 @@ firestore.settings(settings);
             answer1:"Habilidad de liderazgo y creatividad",
             answer2:"Habilidad para argumentar y negociar",
             answer3:"Habilidad numérica y matemática",
+            points:225,
             correct:2
         },
         {
@@ -69,6 +78,7 @@ firestore.settings(settings);
             answer1:"Capacidad de iderazgo",
             answer2:"Sentido de independencia",
             answer3:"Gusto por la ventas",
+            points:250,
             correct:3
         },
         {
@@ -76,6 +86,7 @@ firestore.settings(settings);
             answer1:"Ganando la confianza del cliente",
             answer2:"Asignando un horario establecido de visita",
             answer3:"Dándole obsequios y promociones especiales",
+            points:275,
             correct:1
         },
         {
@@ -83,6 +94,7 @@ firestore.settings(settings);
             answer1:"Habilidad numérica",
             answer2:"Habilidad de trabajo en equipo",
             answer3:"Habilidad de palabra",
+            points:300,
             correct:4
         }
     ]
@@ -305,6 +317,7 @@ function reviewTime(){
                 $("#ans2").html(letters[1] + questions_c[numQuestion].answer2);
                 $("#ans3").html(letters[2] + questions_c[numQuestion].answer3);
                 selectAnswer = questions_c[numQuestion].correct;
+                pointsQuestion = questions_c[numQuestion].points
         
     });
     
