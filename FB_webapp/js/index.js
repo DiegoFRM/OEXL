@@ -3,7 +3,7 @@ var firestore = firebase.firestore();
 var t1p1,t2p1
 var settings = {/* your settings... */ timestampsInSnapshots: true};
 var selectAnswer = 0;
-var startJeopardy = 0;
+
 firestore.settings(settings);    
     
 
@@ -180,11 +180,13 @@ function deleteData(){
          var pin = firestore.collection("26839");
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
         ide.update({
-             QuestionNumber:0,
-             scorep1:0,
-             scorep2:0,
-             timep1:0,
-             timep2:0,
+            startJeopardy:0,
+            restartGame:true,
+            QuestionNumber:0,
+            scorep1:0,
+            scorep2:0,
+            timep1:0,
+            timep2:0,
             startgame:false,
             team1:{
             p1:{
@@ -231,12 +233,13 @@ function gotoScene2(){
 }
 
 function InitGame(){
-    startJeopardy = 0;
         var pin = firestore.collection("26839");
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
         ide.update({
             startgame:
-            1
+            1,
+            startJeopardy:
+            0
             
         });
 }
@@ -339,13 +342,68 @@ function choiceQuestion(question){
     }
  
 
+var centesimas = 0;
+var segundos = 0;
+var minutos = 0;
+var horas = 0;
 
-    function startGame(){
-        if(startJeopardy == 0){
-            
+function restartTime () {
+	centesimas = 0;
+	segundos = 0;
+	minutos = 0;
+	horas = 0;
+	Centesimas.innerHTML = ":00";
+	Segundos.innerHTML = ":00";
+	Minutos.innerHTML = ":00";
+	Horas.innerHTML = "00";
+}
+
+function inicio () {
+	control = setInterval(cronometro,10);
+}
+    
+
+function cronometro () {
+	if (centesimas < 99) {
+		centesimas++;
+		if (centesimas < 10) { centesimas = "0"+centesimas }
+		Centesimas.innerHTML = ":"+centesimas;
+	}
+	if (centesimas == 99) {
+		centesimas = -1;
+	}
+	if (centesimas == 0) {
+		segundos ++;
+		if (segundos < 10) { segundos = "0"+segundos }
+		Segundos.innerHTML = ":"+segundos;
+	}
+	if (segundos == 59) {
+		segundos = -1;
+	}
+	if ( (centesimas == 0)&&(segundos == 0) ) {
+		minutos++;
+		if (minutos < 10) { minutos = "0"+minutos }
+		Minutos.innerHTML = ":"+minutos;
+	}
+	if (minutos == 59) {
+		minutos = -1;
+	}
+	if ( (centesimas == 0)&&(segundos == 0)&&(minutos == 0) ) {
+		horas ++;
+		if (horas < 10) { horas = "0"+horas }
+		Horas.innerHTML = horas;
+	}
+}  
+
+
+    function startGame(startJeo){
+        if(startJeo == 0){
+        restartTime();
+        $("#texto_empieza").show();    
         $("#Cortina").hide();
         $("#enterGamePlayer").hide();
         $("#ButtonStart").show();
+        $("#Preguntas").hide();    
         TweenMax.fromTo($(".text_3"),2,{alpha:1,scale:1},{alpha:0,scale:5,delay:1});
     TweenMax.fromTo($(".text_2"),2,{alpha:1,scale:0},{alpha:0,scale:5,delay:3});
     TweenMax.fromTo($(".text_1"),2,{alpha:1,scale:0},{alpha:0,scale:5,delay:5,onComplete:startButtonRed});
@@ -362,7 +420,11 @@ function choiceQuestion(question){
             
             $("#enterGamePlayer").hide();
             $("#ButtonStart").show();
-        startJeopardy = 1;
+            var pin = firestore.collection("26839");
+                var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+                ide.update({
+             startJeopardy:1
+                });    
         }
     }
 
@@ -386,7 +448,7 @@ var realTime  = () => {
         $("#Scorep1").find("span").html(doc.data().scorep1);
         $("#Scorep2").find("span").html(doc.data().scorep2);
         if(doc.data().startgame == 1){
-            startGame();
+            startGame(doc.data().startJeopardy);
         }else if(doc.data().startgame == 2){
                 
             $("#enterGamePlayer").hide();
@@ -394,9 +456,21 @@ var realTime  = () => {
             $("#Cortina").show(); 
             
         }else{
+            if(doc.data().restartGame == true){
             $("#enterGamePlayer").show();
             $("#ButtonStart").hide();
+            $("#Preguntas").hide();
             $("#Cortina").hide();
+               $("#textoPlayer").html("<h2>¡Pon tu Nombre para entrar al juego!</h2>");
+            $("#joinBtn").show();
+            $("#enterName").show();
+            $("#enterName").val("");
+                var pin = firestore.collection("26839");
+                var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+                ide.update({
+             restartGame:false
+                });
+            }
         }
 
     });
