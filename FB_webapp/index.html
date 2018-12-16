@@ -125,6 +125,10 @@
             font-size: 2vw;
         }
         
+        .btn img{
+            width: 40%;
+        }
+        
         #Scene1{
             display: block;
         }
@@ -156,13 +160,14 @@
         }
         
         .questionsBox{
-            background-color: deepskyblue;
+            background-color: #00b8f5;
             font-size: 1.5em;
-            border-radius: 1vw;
+            border-radius: 0.5vw;
             padding: 1.3vw;
             width: 49%;
             margin: 0.2vw;
             cursor: pointer;
+            box-shadow:inset 0px 0px 20px #ffffff;
             
         }
         
@@ -225,7 +230,9 @@
                <div id="Iniciar" class="container">
                     <h2></h2>
                     <div class="row">
-                        <button class="col-xs-12 btn btn-success" onclick="gotoScene2();">Iniciar</button>
+                        <div class="btn col-xs-12" onclick="gotoScene2();">
+                            <img src="img/buttonstart.png">
+                        </div>
                     </div>
                 </div> 
                 <div id="reiniciar" class="container">
@@ -333,24 +340,37 @@
    $("#Scene2").hide();
     
 
-   function includeQuestions(contenedor,side){
+   function includeQuestions(contenedor,side,array){
        var letters = ["a) ","b) " ,"c) "]
         var initValue = 25;
            for(var i = 0;i<=10;i++){
                initValue = initValue + 25
-        contenedor.append(
-            `<div id="btnSide_`+i+`" class="questionsBox col-xs-6" points="`+initValue+`">`+initValue+`</div>`
-        )
+               if(i == 10){
+                contenedor.append(
+                    `<div id="btn`+side+`_`+i+`" class="questionsBox col-xs-12" points="`+initValue+`" style="width:100%;">`+initValue+`</div>`
+                    )
+                  }else{
+                contenedor.append(
+                    `<div id="btn`+side+`_`+i+`" class="questionsBox col-xs-6" points="`+initValue+`">`+initValue+`</div>`
+                    )
+                  }
+
                
-            $("#btnSide_" + i).attr("index",i)   
-            $("#btnSide_" + i).click(function(){
-                var index = $(this).attr("index")
-                $("#questionPop").show();
-                $("#question_text").html(questions_c[index].question);
-                $("#ans1").html(letters[0] + questions_c[index].answer1);
-                $("#ans2").html(letters[1] + questions_c[index].answer2);
-                $("#ans3").html(letters[2] + questions_c[index].answer3);
-                choiceQuestion(parseInt(index));
+            $("#btn"+side+"_" + i).attr("index",i);
+            $("#btn"+side+"_" + i).attr("enabled",1);   
+            $("#btn"+side+"_" + i).click(function(){
+                var enabled = $(this).attr("enabled");
+                if(enabled == 1){
+                    var index = $(this).attr("index");
+                    $(this).attr('disabled','disabled');
+                    $("#questionPop").show();
+                    $("#question_text").html(array[index].question);
+                    $("#ans1").html(letters[0] + array[index].answer1);
+                    $("#ans2").html(letters[1] + array[index].answer2);
+                    $("#ans3").html(letters[2] + array[index].answer3);
+                    $(this).css("background-color","#717171")
+                    $(this).attr("enabled",0);
+                }
             });       
                
     }
@@ -359,16 +379,7 @@
        
    }
     
-    includeQuestions($("#loadQuestions-C"),1);
-    includeQuestions($("#loadQuestions-I"),2);
-    
-         $(".questionsBox").mouseover(function(){
-         $(this).css("opacity",0.5);
-     });
-    
-     $(".questionsBox").mouseout(function(){
-         $(this).css("opacity",1);
-     });
+
     
      $("#questionPop").hide();
 

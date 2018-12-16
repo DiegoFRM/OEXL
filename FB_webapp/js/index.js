@@ -239,9 +239,29 @@ function setPlayer2(){
 }
 
 function gotoScene2(){
-    $("#Iniciar").hide();
-    $("#Scene1").hide();
-   $("#Scene2").show();
+    
+     firestore.collection("26839").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+           if(doc.data().team1.p1.name != "" && doc.data().team2.p1.name != ""){
+               TweenMax.to($("#logo"),0.5,{scale:2,alpha:0,ease:Back.easeIn});
+               TweenMax.to($("#Iniciar"),0.5,{scale:2,alpha:0,ease:Back.easeIn,delay:0.1});
+               TweenMax.to($("#reiniciar"),0.5,{scale:2,alpha:0,ease:Back.easeIn,delay:0.2,onComplete:next1});
+               function next1(){
+                 $("#Iniciar").hide();
+                 $("#Scene1").hide();
+                 $("#Scene2").show();                     
+               }
+               
+        
+        }else{
+            swal("¡Upss!", "¡Aún no están ambos jugadores listos!"); 
+        }
+    });
+    
+     });    
+    
+    
+
 }
 
 function InitGame(){
@@ -491,3 +511,12 @@ var realTime  = () => {
 }
 
 realTime();
+    includeQuestions($("#loadQuestions-C"),1,questions_c);
+    includeQuestions($("#loadQuestions-I"),2,questions_c);
+         $(".questionsBox").mouseover(function(){
+         $(this).css("opacity",0.5);
+     });
+    
+     $(".questionsBox").mouseout(function(){
+         $(this).css("opacity",1);
+     });
