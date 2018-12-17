@@ -98,6 +98,96 @@ firestore.settings(settings);
             correct:4
         }
     ]
+    var questions_i = [
+        {
+            question:"Es la primer manera de presentarte adecuadamente en imagen frente a compañeros y cliente:",
+            answer1:"Baño diario y por la mañana",
+            answer2:"Producto suficiente",
+            answer3: "Vehículo limpio",
+            points:50,
+            correct:1
+        },
+        {
+            question:"Es como debes llegar cuidando tu imagen como vendedor",
+            answer1:"Dinámico y ágil",
+            answer2:"Vehículo limpio y en buenas condiciones",
+            answer3: "Bien presentable",
+            points:75,
+            correct:1
+        },
+        {
+            question:"Como vendedores, nuestro cabello debe ir:",
+            answer1:"Arreglado, cepillado y teñido",
+            answer2:"Peinado, corto o recogido",
+            answer3: "Peinado, limpio y largo",
+            points:100,
+            correct:2
+        },
+        {
+            question:"Es parte del cuidado estético del vendedor:",
+            answer1:"Rasurado/bigote recortado en hombres, maquillaje discreto en mujeres.",
+            answer2:"Calcetines oscuros en hombres, calcetas oscuras en mujeres.",
+            answer3: "Sin tatuajes o perforaciones",
+            points:125,
+            correct:1
+        },
+        {
+            question:"Es  indispensable en el vendedor en su interacción con el cliente, mantener la limpieza de:",
+            answer1:"Manos y dientes",
+            answer2:"Cajas y charolas",
+            answer3: "Cabello y vehículo",
+            points:150,
+            correct:1
+        },
+        {
+            question:"Es la manera en que nos distinguimos de otros vendedores:",
+            answer1:"Llegando siempre antes que ellos",
+            answer2:"Emblema de la marca siempre visible",
+            answer3: "Llevando siempre un accesorio de color azul",
+            points:175,
+            correct:2
+        },
+        {
+            question:"Es una manera de personalizar nuestra presencia frente a clientes y compañeros:",
+            answer1:"Con un saludo diferente",
+            answer2:"Con un apodo",
+            answer3: "Gafete con nombre y departamento",
+            points:200,
+            correct:3
+        },
+        {
+            question:"Es un elemento esencial en nuestra imagen de vendedores que nos distingue de la competencia:",
+            answer1:"Tinas y exhibidores limpios",
+            answer2:"Material punto de venta y anuncios",
+            answer3: "Uniforme limpio, planchado y completo.",
+            points:225,
+            correct:3
+        },
+        {
+            question:"Es el accesorio que nos permite darle formalidad a nuestro uniforme:",
+            answer1:"Corbata azul",
+            answer2:"Cinturón negro",
+            answer3: "Lentes oscuros",
+            points:250,
+            correct:2
+        },
+        {
+            question:"Es un accesorio que nos permite complementar nuestro uniforme correctamente:",
+            answer1:"Calcetines o calcetas obscuras",
+            answer2:"Cinturón azul",
+            answer3: "Gorra roja",
+            points:275,
+            correct:1
+        },
+        {
+            question:"Es un accesorio en el que recae mucha importancia de nuestra imagen:",
+            answer1:"Corbata en hombres, pañuelo en mujeres",
+            answer2:"Chamarra azul marino",
+            answer3: "Calzado negro y boleado",
+            points:300,
+            correct:3
+        }
+    ]
 
 
 var makeid = function() {
@@ -354,21 +444,25 @@ function choiceQuestion(question){
 }
 
 
+   var Scorep1 =  0;
+   var Scorep2 = 0;
+
     function sendScore(scoreAnswer){
         
         var pin = firestore.collection("26839");
         var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
         if(playerNum == 1){
+            Scorep1 = Scorep1 + scoreAnswer;
             ide.update({
             scorep1:
-            scoreAnswer
+            Scorep1
             
             });
         }else{
+            Scorep2 = Scorep2 + scoreAnswer;
             ide.update({
             scorep2:
-            scoreAnswer
-            
+            Scorep2
             });  
         }
 
