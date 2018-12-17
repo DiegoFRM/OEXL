@@ -338,46 +338,7 @@
     
    $("#Scene1").show();
    $("#Scene2").hide();
-    
 
-   function includeQuestions(contenedor,side,array){
-       var letters = ["a) ","b) " ,"c) "]
-        var initValue = 25;
-           for(var i = 0;i<=10;i++){
-               initValue = initValue + 25
-               if(i == 10){
-                contenedor.append(
-                    `<div id="btn`+side+`_`+i+`" class="questionsBox col-xs-12" points="`+initValue+`" style="width:100%;">`+initValue+`</div>`
-                    )
-                  }else{
-                contenedor.append(
-                    `<div id="btn`+side+`_`+i+`" class="questionsBox col-xs-6" points="`+initValue+`">`+initValue+`</div>`
-                    )
-                  }
-
-               
-            $("#btn"+side+"_" + i).attr("index",i);
-            $("#btn"+side+"_" + i).attr("enabled",1);   
-            $("#btn"+side+"_" + i).click(function(){
-                var enabled = $(this).attr("enabled");
-                if(enabled == 1){
-                    var index = $(this).attr("index");
-                    $(this).attr('disabled','disabled');
-                    $("#questionPop").show();
-                    $("#question_text").html(array[index].question);
-                    $("#ans1").html(letters[0] + array[index].answer1);
-                    $("#ans2").html(letters[1] + array[index].answer2);
-                    $("#ans3").html(letters[2] + array[index].answer3);
-                    $(this).css("background-color","#717171")
-                    $(this).attr("enabled",0);
-                }
-            });       
-               
-    }
-       
-       
-       
-   }
     
 
     

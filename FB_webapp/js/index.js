@@ -4,6 +4,7 @@ var t1p1,t2p1
 var settings = {/* your settings... */ timestampsInSnapshots: true};
 var selectAnswer = 0;
 var pointsQuestion = 0;
+var selectColQuestions = 0;
 
 firestore.settings(settings);    
     
@@ -361,9 +362,14 @@ function InitGame(){
             startgame:
             1,
             startJeopardy:
-            0
+            0,
+            choiceArray:
+            selectColQuestions
             
         });
+    
+    
+
 }
 
 
@@ -394,6 +400,7 @@ function timeRedButton(timer){
             });  
         }
     
+    //tweenMax.fromTo($("#Cortina"),0.5,{alpha:1},{alpha:0,delay:3,onComplete:reviewTime});
     var count = setTimeout(reviewTime, 3000);
 
 }
@@ -403,10 +410,31 @@ function reviewTime(){
          firestore.collection("26839").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
         var numQuestion = doc.data().QuestionNumber;
+        console.log("numQuestion: " + numQuestion);
+        console.log("choiceArray: " + doc.data().choiceArray);
+        if(doc.data().choiceArray == 1){
+                $("#question_text").html(questions_c[numQuestion].question);
+                $("#ans1").html(letters[0] + questions_c[numQuestion].answer1);
+                $("#ans2").html(letters[1] + questions_c[numQuestion].answer2);
+                $("#ans3").html(letters[2] + questions_c[numQuestion].answer3);
+                selectAnswer = questions_c[numQuestion].correct;
+                pointsQuestion = questions_c[numQuestion].points
+           }else{
+                $("#question_text").html(questions_i[numQuestion].question);
+                $("#ans1").html(letters[0] + questions_i[numQuestion].answer1);
+                $("#ans2").html(letters[1] + questions_i[numQuestion].answer2);
+                $("#ans3").html(letters[2] + questions_i[numQuestion].answer3);
+                selectAnswer = questions_i[numQuestion].correct;
+                pointsQuestion = questions_i[numQuestion].points
+           }
+        
+        
+
            if(doc.data().timep1 < doc.data().timep2 ){
             if(playerNum == 1){
               $("#ButtonStart").hide();
                $("#Preguntas").show();
+                $("#Cortina").hide();
             }else{
                 $("#Cortina").show();
             }
@@ -415,23 +443,18 @@ function reviewTime(){
             if(playerNum == 2){
               $("#ButtonStart").hide();
                $("#Preguntas").show();
+                $("#Cortina").hide();
             }else{
                 $("#Cortina").show();
             }
             
         }
         
-        
-                $("#question_text").html(questions_c[numQuestion].question);
-                $("#ans1").html(letters[0] + questions_c[numQuestion].answer1);
-                $("#ans2").html(letters[1] + questions_c[numQuestion].answer2);
-                $("#ans3").html(letters[2] + questions_c[numQuestion].answer3);
-                selectAnswer = questions_c[numQuestion].correct;
-                pointsQuestion = questions_c[numQuestion].points
-        
     });
     
      });
+    
+    
 }
 
 function choiceQuestion(question){
@@ -605,8 +628,56 @@ var realTime  = () => {
 }
 
 realTime();
+
+    
+
+   function includeQuestions(contenedor,side,array){
+       var letters = ["a) ","b) " ,"c) "];
+        
+    
+        var initValue = 25;
+           for(var i = 0;i<=10;i++){
+               initValue = initValue + 25
+               if(i == 10){
+                contenedor.append(
+                    `<div id="btn`+side+`_`+i+`" class="questionsBox col-xs-12" points="`+initValue+`" style="width:100%;">`+initValue+`</div>`
+                    )
+                  }else{
+                contenedor.append(
+                    `<div id="btn`+side+`_`+i+`" class="questionsBox col-xs-6" points="`+initValue+`">`+initValue+`</div>`
+                    )
+                  }
+
+               
+            $("#btn"+side+"_" + i).attr("index",i);
+            $("#btn"+side+"_" + i).attr("enabled",1);   
+            $("#btn"+side+"_" + i).click(function(){
+                var enabled = $(this).attr("enabled");
+                if(enabled == 1){
+                    var index = $(this).attr("index");
+                    choiceQuestion(index);
+                    selectColQuestions = side;
+                    $(this).attr('disabled','disabled');
+                    $("#questionPop").show();
+                    $("#question_text").html(array[index].question);
+                    $("#ans1").html(letters[0] + array[index].answer1);
+                    $("#ans2").html(letters[1] + array[index].answer2);
+                    $("#ans3").html(letters[2] + array[index].answer3);
+                    $(this).css("background-color","#717171")
+                    $(this).attr("enabled",0);
+                }
+            });       
+               
+               
+               
+    }
+       
+       
+       
+   }
+
     includeQuestions($("#loadQuestions-C"),1,questions_c);
-    includeQuestions($("#loadQuestions-I"),2,questions_c);
+    includeQuestions($("#loadQuestions-I"),2,questions_i);
          $(".questionsBox").mouseover(function(){
          $(this).css("opacity",0.5);
      });
