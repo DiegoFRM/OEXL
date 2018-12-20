@@ -18,7 +18,8 @@
 	width: 100vw;
 	height: 100vh;
 	color: #fff;
-	 background: linear-gradient(-45deg,#5313ba, #ad0ee8,#5313ba);
+    background: linear-gradient(-45deg,#5313ba, #ad0ee8,#5313ba);
+    overflow: hidden;
 }
 
         
@@ -32,6 +33,20 @@
             position: absolute;
             z-index: 12;
             width: 100%;
+        }    
+        
+        .header img{
+            width: 80%;
+        }
+        
+        .containerName{
+            width: 100vw;
+        }
+        
+        .bodytext{
+            width: 100%;
+            
+            
         }
         
         .maincontent{
@@ -45,8 +60,8 @@
         
 
         
-        #reiniciar,
-        #jointeam{
+        #reiniciar
+        {
             max-width: 40%;
             text-align: center;
             
@@ -202,9 +217,8 @@
 
 <div id="enterGamePlayer" class="maincontent">  
         <h2><div id="textoPlayer">¡Pon tu Nombre para entrar al juego!</div> </h2>
-    <div id="jointeam" class="container">
+    <div id="jointeam">
         
-        <h2>unirte al Juego</h2>
         <div class="row">
         <textarea id="enterName" class="entername col-xs-12" rows="1" cols="1" maxlength="10"></textarea>
          <button id="joinBtn" class="col-xs-12 btn btn-success" onclick="joinGame();">Unirte</button>
