@@ -4,97 +4,47 @@
 <!-- Las librerías para funcionar la realidad aumentada-->
 <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
 <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
-    <!-- Aquí son las funciones para reproducción del video -->
   <script src="js/videoactions.js"></script>
-<!--Aquí van los estilos para los objetos de AR, no requiere de muchos ya que activa la cámara y las posiciones de los objetos se hacen mediante la data, pero en caso de necesitar incluir más elementos aquí van, -->
+
 <link rel="stylesheet" href="css/style.css">
     
 <body style="margin : 0px; overflow: hidden;">
    
-<!-- Aquí es donde empieza y hace incializan todos los objetos que deben tener-->
   <a-scene embedded arjs="sourceType: webcam;">
 
-<!--  **************** Ejemplo de como incluir un patt personalizado ************************************ **************************** **************************** **************************** **************************** **************************** ****************************        -->          
-      
-      <!--  Se crea un elemento "a-marker"  y con los siguientes datos se va constriyendo de la siguiente manera:
-        <a marker  -- -> se abre una etiqueta con el nombre de a marker
-            type = 'pattern'   -- -> se declara el tipo de lectura que será de patrón 
 
-            preset= 'custom'   -- -> se declara que será personalizada y usaremos un patrón hecho por                               nosotros
 
-            url = 'url del patt para la lectura'   -- -> y se pone la ruta para el patt para la lectura
-        >
--->
-      <a-marker  type='pattern' preset='custom' url='data/data/pattern_1.patt'>
-          <!--
-            Dentro de la etiqueta se incluye el elemento, aquí incluí un elemento predefinido
-            por la librería que es cubo y se hace con la etiqueta <a-box></a-box> para manejarlo dentro del plano se tiene las siguientes propiedades:
-             position='0 0.5 0'    -- -> son las posiciones dentro del plano, x,y,z
-            material='opacity: 0.5;' -- -> aquí es estilo del elemeneto
-            -->
+<!--
+<a-marker  type='pattern' preset='custom' url='data/data/pattern_1.patt'>
+          
         <a-box position='0 0.5 0' material='opacity: 0.5;'></a-box>
-            <!--  Se cierra la etiqueta -->
         </a-marker>
-      
-      
-<!--  **************** Modelo 3D ************************************ **************************** **************************** **************************** **************************** **************************** ****************************        -->    
-      
-        <!--  Podemos usar patrones pre definidos por la librería con present="kanji"  -->
-        <a-marker preset='kanji'>
+-->
 
-          <!-- Abrimos una etiqueta <a-entity></a-entity> para usar un modelo 3d y se personaliza de la siguiente forma:
-            <a-entity 
-            scale="0.07 0.07 0.07"   -- -> Aquí podemos escalar el objeto de x,y,z (es importante escalarlo ya que muchas veces el modelo es lo bastante grande como para entrar en la pantalla aunque de preferencia revisen el tamaño al exportar)
 
-            rotation="-90 90 -90"  -- -> Puedes acomodar el modelo en las posiciones x,y,z del plano, esto es para ponerlo como quieres que salga del código QR y a que profundidad 
+        <a-marker  type='pattern' preset='custom' url='data/data/pattern-bimbo.patt'>
 
-            obj-model="obj: url(url del modelo); -- -> Aquí se pone la dirección del modelo en extensión .obj
 
-            mtl: url(url de la textura)" -- -> Aquí su carga de textura con un archivo .mtl
-            >
-            </a-entity>
-            -->
         <a-entity scale="0.07 0.07 0.07" rotation="-90 90 -90" obj-model="obj: url(assets/Cartel_mini_GM.obj); mtl: url(assets/Cartel_mini_GM.mtl)">
         </a-entity>
-             <!--  Se cierra la etiqueta -->
       </a-marker>
 
-<!--  **************** VIDEO ************************************ **************************** **************************** **************************** **************************** **************************** ****************************        -->
-      
-        <!-- Puedes precargar los objetos a usar desde antes por ejemplo videos o imagenes que quieras cargar con los códigos QR  dentro de una etiqueta llamada <a-assets></a-ssets>-->
       <a-assets>
           <video id="vid" src="assets/video_baja.mp4" loop="true" crossorigin></video>
       </a-assets> 
-      
-      <!--  Agregamos un <a-marker></a-marker> después el patrón para este ejemplo usaremos uno predefinido por la librería el "hiro" después agregamos la función que detona al leerse el código QR en cualquiera de los casos anteriores puedes incluir una función que detone al hacer la lectura así puedes también mandar eventos de SCORM   -->
-    <a-marker preset="hiro" vidhandler>
+
+      <a-marker  type='pattern' preset='custom' url='data/data/pattern-marker1.patt' vidhandler>
     
-        <!--   Aquí incluimos el modelo 3d y personalizado  -->
       <a-entity position='0 0 0' scale="0.05 0.05 0.05" rotation="-90 90 -90"  obj-model="obj: url(assets/monitor_barcel.obj); mtl: url(assets/monitor_barcel.mtl)">
         </a-entity>      
-        
-        <!--   con la etiqueta <a-plane></a-plane> incluimos el elemento que precargamos en assets de la siguiente forma:
-        <a-plane 
-            position='0.15 0.2 -0.55'  -- -> sus posiciones en plano x,y,z
-            scale="1.84 2.07 2"      -- -> sus escalas en el plano, aquí tuve que deformar el elemento                                  para que entrara dentro del monito
-            width="2"   -- -> Aquí puedes definirle un tamaño a escala de su anchura, y lo puedes                           complementar con scale para acomodarlo como lo necesites
-           
-            rotation="-90 0 0"   -- -> su posicion en eje x.y,z para ponerlo de frente de lado como lo                              necesites en la lectura del QR 
 
-            material='transparent:true; opacity: 1; src:#ID del elemento'  -- ->  El material precargado en los assets y sus propiedades
-        >
-        </a-plane>
-
-        -->
       <a-plane position='0.15 0.2 -0.55' scale="1.84 2.07 2" width="2" rotation="-90 0 0" 
        material='transparent:true; opacity: 1; src:#vid'></a-plane>
 <!--  Se cierra la etiqueta -->
     </a-marker>      
 
-      <!--  Se incluye la cámara para toda la escena -->
 <a-entity camera></a-entity>   
       
-      <!--  Se cierra la Escena -->
   </a-scene>
     
 </body>
