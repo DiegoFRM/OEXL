@@ -79,6 +79,23 @@ function timeRedButton(timer){
     
 }
 
+function setActivePlayer1(dato){
+
+        var pin = firestore.collection("26839");
+        var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+            ide.update({
+            p1active: dato
+        });
+}
+
+function setActivePlayer2(dato){
+        var pin = firestore.collection("26839");
+        var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+            ide.update({
+            p2active: dato
+        });
+}
+
 function reviewTime(){
     var letters = ["a) ","b) " ,"c) "];
          firestore.collection("26839").get().then((querySnapshot) => {
@@ -103,26 +120,41 @@ function reviewTime(){
            }
         
         
-
-           if(doc.data().timep1 < doc.data().timep2 ){
-            if(parent.location.hash == "#1"){
-              $("#ButtonStart").hide();
-               $("#Preguntas").show();
-                $("#Cortina").hide();
-            }else{
-                $("#Cortina").show();
-            }
+        if(doc.data().countTurn == 0){
+                if(doc.data().timep1 < doc.data().timep2 ){
+                    setActivePlayer1(true)
+                    console.log("es el uno")
             
-        }else{
-            if(parent.location.hash == "#2"){
-              $("#ButtonStart").hide();
-               $("#Preguntas").show();
-                $("#Cortina").hide();
-            }else{
-                $("#Cortina").show();
-            }
-            
+                }else{
+                    setActivePlayer2(true)
+                    
+                    console.log("es el dos")
+                }
         }
+
+            if(doc.data().p1active){
+                  if(parent.location.hash == "#1"){
+                  $("#ButtonStart").hide();
+                   $("#Preguntas").show();
+                    $("#Cortina").hide();
+                }else{
+                    $("#Cortina").show();
+                }
+            }
+        
+            if(doc.data().p2active){
+                if(parent.location.hash == "#2"){
+                      $("#ButtonStart").hide();
+                       $("#Preguntas").show();
+                        $("#Cortina").hide();
+                    }else{
+                        $("#Cortina").show();
+                }
+            }
+        
+        
+
+        
         
     });
     
@@ -148,6 +180,8 @@ function choiceQuestion(question){
         var pin = firestore.collection("26839");
         var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
         if(parent.location.hash == "#1"){
+            
+            $("#scorePoints").html(Scorep1);
             Scorep1 = Scorep1 + scoreAnswer;
             ide.update({
             scorep1:
@@ -155,15 +189,51 @@ function choiceQuestion(question){
             
             });
         }else{
+            $("#scorePoints").html(Scorep2);
             Scorep2 = Scorep2 + scoreAnswer;
             ide.update({
             scorep2:
             Scorep2
             });  
         }
-
+        
     }
  
+function passTurn(){
+    firestore.collection("26839").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => { 
+            if(doc.data().countTurn == 0){
+                var pin = firestore.collection("26839");
+                var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
+                ide.update({
+                    countTurn:1
+                });  
+                
+                if(parent.location.hash == "#1"){
+                        setActivePlayer1(false);
+                        setActivePlayer2(true);
+                        
+                    }else{
+                        setActivePlayer2(false);
+                        setActivePlayer1(true);
+                }    
+                $("#popRetro").show();
+                $(".windowPop").html("¡Incorrecto!<br>Es el turbo de adversario");
+                
+            }else{
+                setActivePlayer1(false);
+                setActivePlayer2(false);
+                $("#Cortina").show();
+                
+                $("#popRetro").show();
+                $(".windowPop").html("¡Incorrecto!<br>Ningún jugador acertó");
+            }
+          
+        });
+    });
+}
+
+
 
 var centesimas = 0;
 var segundos = 0;
@@ -256,7 +326,6 @@ var realTime  = () => {
     firestore.collection("26839").doc("eopUiANzBwYlo8FZYdEO")
     .onSnapshot(function(doc) {
 
-        
         if(doc.data().startgame == 1){
             startGame(doc.data().startJeopardy);
         }else if(doc.data().startgame == 2){
@@ -264,6 +333,7 @@ var realTime  = () => {
             $("#enterGamePlayer").hide();
             $("#ButtonStart").hide();
             $("#Cortina").show(); 
+            $("#popRetro").hide();
             
         }else{
             if(doc.data().restartGame == true){
@@ -271,6 +341,7 @@ var realTime  = () => {
             $("#ButtonStart").hide();
             $("#Preguntas").hide();
             $("#Cortina").hide();
+            $("#popRetro").hide();
                $("#textoPlayer").html("<h2>¡Pon tu Nombre para entrar al juego!</h2>");
             $("#joinBtn").show();
             $("#enterName").show();

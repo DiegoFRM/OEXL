@@ -81,6 +81,9 @@ function deleteData(){
          var pin = firestore.collection("26839");
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
         ide.update({
+            countTurn:0,
+            p1active:false,
+            p2active:false,
             startJeopardy:0,
             restartGame:true,
             QuestionNumber:0,
@@ -148,6 +151,22 @@ function InitGame(){
 }
 
 
+function setActivePlayer1(dato){
+        var pin = firestore.collection("26839");
+        var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+            ide.update({
+            p1active: dato
+        });
+}
+
+function setActivePlayer2(dato){
+        var pin = firestore.collection("26839");
+        var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+            ide.update({
+            p2active: dato
+        });
+}
+
 function restartQuestion(){
 
      firestore.collection("26839").get().then((querySnapshot) => {
@@ -157,7 +176,7 @@ function restartQuestion(){
     
     });
     
-     });
+});
 
     
     var pin = firestore.collection("26839");
@@ -165,7 +184,10 @@ function restartQuestion(){
         ide.update({
             startgame:2,
             timep1:0,
-            timep2:0
+            timep2:0,
+            countTurn:0,
+            p1active:false,
+            p2active:false
             
         });
 }
