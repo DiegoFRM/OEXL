@@ -13,15 +13,31 @@ function joinGame(){
 
      firestore.collection("26839").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-           if(doc.data().team1.p1.name == ""){
-            setPlayer1();
+           if(doc.data().t1p1 == ""){
+            setPlayer1()
             playerNum = 1;
             parent.location.hash = 1;   
             
-        }else{
-            setPlayer2();
+        }else if(doc.data().t1p2 == ""){
+            setPlayer2()
             playerNum = 2;
             parent.location.hash = 2;   
+        }else if(doc.data().t1p3 == ""){
+            setPlayer3()
+            playerNum = 3;
+            parent.location.hash = 3;   
+        }else if(doc.data().t2p1 == ""){
+            setPlayer4()
+            playerNum = 4;
+            parent.location.hash = 4;   
+        }else if(doc.data().t2p2 == ""){
+            setPlayer5()
+            playerNum = 5;
+            parent.location.hash = 5;   
+        }else if(doc.data().t2p3 == ""){
+            setPlayer6()
+            playerNum = 6;
+            parent.location.hash = 6;   
         }
     });
     
@@ -38,22 +54,50 @@ function setPlayer1(){
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
     //var ide = pin.doc("eopUiANzBwYlo8FZYdEO").collection("team1").doc("p1")
         ide.update({
-            team1:{
-            p1:{
-                name:$("#enterName").val()
-            }
-            }
+            t1p1:$("#enterName").val()
+            
         });
 }
 function setPlayer2(){
         var pin = firestore.collection("26839");
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
         ide.update({
-            team2:{
-            p1:{
-                name:$("#enterName").val()
-                } 
-            }
+            t1p2:$("#enterName").val()
+                
+        });
+}
+function setPlayer3(){
+        var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+        ide.update({
+            t1p3:$("#enterName").val()
+                
+        });
+}
+
+function setPlayer4(){
+        var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+    //var ide = pin.doc("eopUiANzBwYlo8FZYdEO").collection("team1").doc("p1")
+        ide.update({
+            t2p1:$("#enterName").val()
+            
+        });
+}
+function setPlayer5(){
+        var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+        ide.update({
+            t2p2:$("#enterName").val()
+                
+        });
+}
+function setPlayer6(){
+        var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+        ide.update({
+            t2p3:$("#enterName").val()
+                
         });
 }
 
@@ -62,20 +106,44 @@ function setPlayer2(){
 function timeRedButton(timer){
         var pin = firestore.collection("26839");
         var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
-    var  player = parent.location.hash;
-        if(player == "#1"){
-            ide.update({
-            timep1:
-            timer
-            
-            });
-        }else{
-            ide.update({
-            timep2:
-            timer
-            
-            });  
-        }
+        var player = parent.location.hash;
+
+    
+            switch(player){
+                   case "#1" :
+                    ide.update({
+                        timet1p1: timer
+                    }); 
+                    break;
+                   case "#2" :
+                    ide.update({
+                        timet1p2: timer
+                    }); 
+                    break;
+                   case "#3" :
+                    ide.update({
+                        timet1p3: timer
+                    }); 
+                    break;
+                   case "#4" :
+                    ide.update({
+                        timet2p1: timer
+                    }); 
+                    break;
+                   case "#5" :
+                    ide.update({
+                        timet2p2: timer
+                    }); 
+                    break;
+                   case "#6" :
+                    ide.update({
+                        timet2p3: timer
+                    }); 
+                    break;
+            }    
+    
+    
+    
     
 }
 
@@ -97,6 +165,9 @@ function setActivePlayer2(dato){
 }
 
 function reviewTime(){
+    var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
+           
     var letters = ["a) ","b) " ,"c) "];
          firestore.collection("26839").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
@@ -121,41 +192,96 @@ function reviewTime(){
         
         
         if(doc.data().countTurn == 0){
-                if(doc.data().timep1 < doc.data().timep2 ){
-                    setActivePlayer1(true)
-                    console.log("es el uno")
-            
-                }else{
-                    setActivePlayer2(true)
-                    
-                    console.log("es el dos")
+            console.log("Tiempos:");
+            var bestTime =  0;
+            var playerBest;
+            for(var i = 1;i<=2;i++){
+                for(var j = 1;j<=3;j++){
+                    if(i != 2 && j != 3){
+                        if(bestTime != 0){
+                             if(doc.data()["timet"+i+"p" + j] < doc.data()["timet"+[i + 1]+"p" + [j + 1]]){
+                                if(doc.data()["timet"+i+"p" + j] < bestTime ){
+                                bestTime = doc.data()["timet"+i+"p" + j];
+                                playerBest =   "timet"+i+"p" + j  
+                                    
+                                }
+                            }else{
+                                if(doc.data()["timet"+[i + 1]+"p" + [j + 1]] < bestTime ){
+                                    bestTime = doc.data()["timet"+[i + 1]+"p" + [j + 1]];
+                                    playerBest = "timet"+[i + 1]+"p" + [j + 1] 
+                                }
+                            }
+                        }else{
+                            if(doc.data()["timet"+i+"p" + j] < doc.data()["timet"+[i + 1]+"p" + [j + 1]]){
+                                bestTime = doc.data()["timet"+i+"p" + j];
+                                playerBest =   "timet"+i+"p" + j   
+                            }else{
+                                bestTime = doc.data()["timet"+[i + 1]+"p" + [j + 1]];
+                                playerBest = "timet"+[i + 1]+"p" + [j + 1] 
+                            }
+                        }
+                       
                 }
+            }
         }
+            
+            console.log(bestTime  + " " + playerBest);
+            
+            
+            switch(String(playerBest)){
+                   case "timet1p1" :
+                    ide.update({
+                            p1active: true
+                    }); 
+                    break;
+                   case "timet1p2" :
+                    ide.update({
+                            p2active: true
+                    }); 
+                    break;
+                   case "timet1p3" :
+                    ide.update({
+                            p3active: true
+                    }); 
+                    break;
+                   case "timet2p1" :
+                    ide.update({
+                            p4active: true
+                    }); 
+                    break;
+                   case "timet2p2" :
+                    ide.update({
+                            p5active: true
+                    }); 
+                    break;
+                   case "timet2p3" :
+                    ide.update({
+                            p6active: true
+                    }); 
+                    break;
+            }
+              
+            
+        }
+        
 
-            if(doc.data().p1active){
-                  if(parent.location.hash == "#1"){
+        for(var p = 1;p<=6;p++){
+            if(doc.data()["p" + p + "active"]){
+                  if(parent.location.hash == ["#" + p]){
                   $("#ButtonStart").hide();
                    $("#Preguntas").show();
                     $("#Cortina").hide();
-                }else{
-                    $("#Cortina").show();
-                }
-            }
-        
-            if(doc.data().p2active){
-                if(parent.location.hash == "#2"){
-                      $("#ButtonStart").hide();
-                       $("#Preguntas").show();
-                        $("#Cortina").hide();
-                    }else{
-                        $("#Cortina").show();
-                }
-            }
-        
-        
+                    $("#Cortina2").hide();
 
-        
-        
+                }else{
+                    $("#Cortina2").show();
+                    $("#ButtonStart").hide();
+                }
+            }
+            
+            
+        }
+     
     });
     
      });
@@ -179,7 +305,7 @@ function choiceQuestion(question){
         
         var pin = firestore.collection("26839");
         var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
-        if(parent.location.hash == "#1"){
+        if(parent.location.hash == "#1" || parent.location.hash == "#2" || parent.location.hash == "#3" ){
             
             $("#scorePoints").html(Scorep1);
             Scorep1 = Scorep1 + scoreAnswer;
@@ -200,37 +326,89 @@ function choiceQuestion(question){
     }
  
 function passTurn(){
+    var pin = firestore.collection("26839");
+    var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
     firestore.collection("26839").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => { 
             if(doc.data().countTurn == 0){
-                var pin = firestore.collection("26839");
-                var ide = pin.doc("eopUiANzBwYlo8FZYdEO");
-                ide.update({
-                    countTurn:1
-                });  
                 
-                if(parent.location.hash == "#1"){
-                        setActivePlayer1(false);
-                        setActivePlayer2(true);
-                        
-                    }else{
-                        setActivePlayer2(false);
-                        setActivePlayer1(true);
-                }    
+                ide.update({
+                    countTurn:1,
+                    p1active: false,
+                    p2active: false,
+                    p3active: false,
+                    p4active: false,
+                    p5active: false,
+                    p6active: false,
+                });  
+            var player = parent.location.hash;   
+            switch(player){
+                   case "#1" :
+                    $("#Cortina2").hide();
+                    ide.update({
+                            p4active: true,
+                            p1active: false
+                    }); 
+                    break;
+                   case "#2" :
+                    $("#Cortina2").hide();
+                    ide.update({
+                            p4active: true,
+                            p2active: false
+                    }); 
+                    break;
+                   case "#3" :
+                    $("#Cortina2").hide();
+                    ide.update({
+                            p4active: true,
+                            p3active: false
+                    }); 
+                    break;
+                   case "#4" :
+                    $("#Cortina2").hide();
+                    ide.update({
+                            p1active: true,
+                            p4active: false
+                    }); 
+                    break;
+                   case "#5" :
+                    $("#Cortina2").hide();
+                    ide.update({
+                            p1active: true,
+                            p5active: false
+                    }); 
+                    break;
+                   case "#6" :
+                    $("#Cortina2").hide();
+                    ide.update({
+                            p1active: true,
+                            p6active: false
+                    }); 
+                    break;
+            } 
                 $("#popRetro").show();
-                $(".windowPop").html("¡Incorrecto!<br>Es el turbo de adversario");
+                TweenMax.fromTo($(".windowPop"),0.5,{scale:0},{scale:1});
+                $(".windowPop").html("¡Incorrecto!<br>Es el turno de adversario");
                 
             }else{
-                setActivePlayer1(false);
-                setActivePlayer2(false);
-                $("#Cortina").show();
-                
+                ide.update({
+                    countTurn:1,
+                    p1active: false,
+                    p2active: false,
+                    p3active: false,
+                    p4active: false,
+                    p5active: false,
+                    p6active: false,
+                }); 
+                //$("#Cortina").show();
                 $("#popRetro").show();
+                TweenMax.fromTo($(".windowPop"),0.5,{scale:0},{scale:1});
                 $(".windowPop").html("¡Incorrecto!<br>Ningún jugador acertó");
             }
           
         });
     });
+    
 }
 
 
@@ -294,6 +472,7 @@ function cronometro () {
         restartTime();
         $("#texto_empieza").show();    
         $("#Cortina").hide();
+        $("#Cortina2").hide();
         $("#enterGamePlayer").hide();
         $("#ButtonStart").show();
         $("#Preguntas").hide();    
@@ -333,16 +512,19 @@ var realTime  = () => {
             $("#enterGamePlayer").hide();
             $("#ButtonStart").hide();
             $("#Cortina").show(); 
+            
             $("#popRetro").hide();
             
         }else{
+             $("#Cortina2").hide();
             if(doc.data().restartGame == true){
             $("#enterGamePlayer").show();
             $("#ButtonStart").hide();
             $("#Preguntas").hide();
             $("#Cortina").hide();
+            $("#Cortina2").hide();
             $("#popRetro").hide();
-               $("#textoPlayer").html("<h2>¡Pon tu Nombre para entrar al juego!</h2>");
+            $("#textoPlayer").html("<h2>¡Pon tu Nombre para entrar al juego!</h2>");
             $("#joinBtn").show();
             $("#enterName").show();
             $("#enterName").val("");
@@ -354,7 +536,7 @@ var realTime  = () => {
             }
         }
         
-        if(doc.data().timep1 != 0 && doc.data().timep2 != 0 ){
+        if(doc.data().timet1p1 != 0 && doc.data().timet1p2 != 0 && doc.data().timet1p3 != 0 && doc.data().timet2p1 != 0 && doc.data().timet2p2 != 0 && doc.data().timet2p3 != 0 ){
            reviewTime();
 
            }

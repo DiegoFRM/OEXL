@@ -11,6 +11,8 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Lalezar" rel="stylesheet">  
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
     
     <style>
         body{
@@ -32,7 +34,8 @@
         
         #logo{
             position: absolute;
-            width: 60%;
+            width: 50%;
+            max-width: 600px;
             left: 50%;
             top:30%;
             transform: translate(-50%,-50%);
@@ -93,24 +96,21 @@
         
         #team2{
            position: absolute;
-            right: 1%;
-            top: 70%;  
+            right: 0%;
+            top: 0%; 
+            width: 15%;
             text-align: center; 
-           background: -webkit-linear-gradient(#578bff, #a5cbff);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+           background-color: rgba(60, 176, 248, 0.5);
+            height: 100%;
         }
         #team1{
-            
-            position: absolute;
-            left: 1%;
-            top: 70%;
+           position: absolute;
+            left: 0%;
+            top: 0%; 
+            width: 15%;
             text-align: center; 
-           background: -webkit-linear-gradient(#ff6e6e, #fff03f);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-            
-
+           background-color: rgba(248, 60, 60, 0.5);
+            height: 100%;
         }
         
         .score-text{
@@ -143,10 +143,12 @@
         }
         
         #questionsContainer{
-            width: 100%;
+            width: 90%;
             display: flex;
             justify-content: space-around;
             align-items: center;
+            left: 5%;
+            position: relative;
         }
         
         #loadQuestions-I,
@@ -212,6 +214,80 @@
             border-radius: 1vw;
         }
         
+        .pagIns{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 100;
+            transition: all 1s;
+        }
+        
+        .windowIns{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background-color: #031829;
+            border-radius: 1vw;
+            color: #a3baff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2vw;
+            padding: 1vw;
+            font-family: "Helvetica";
+            text-align: center;
+            background-image: url(img/city2.svg);
+            background-repeat: no-repeat;
+            background-size:cover;
+            background-position: 100%;
+            background-blend-mode: soft-light;
+            animation-duration: 80s;
+            animation-name: changewidth;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            
+        }
+        
+    @keyframes changewidth {
+      from {
+        background-position: 20%;
+      }
+
+      to {
+        background-position: 100%;
+      }
+    }
+        
+        .startVideo{
+            position: relative;
+            background-color: #0c60aa;
+            padding: 1vw;
+            font-size: 2vw;
+            border-radius: 1vw;
+            width: 20%;
+            margin: 2%;
+            margin-left: 50%;
+            transform: translate(-50%,0);
+            cursor: pointer;
+
+        }
+
+        
+        .leftAlign{
+            text-align: left;
+        }
+        
+        .animate{
+             transform: scale(0);
+             opacity: 0;
+        }
+        
     </style>
 <body>
     <div id="bgbackground">
@@ -264,8 +340,10 @@
     
     <div class="container-player">
         <div id="team1"  class="lalezar-font">
-        <h2>Oponente 1</h2>
+        <h2>Equipo 1</h2>
         <div id="t1p1" class="name-Oponent"></div>
+        <div id="t1p2" class="name-Oponent"></div>
+        <div id="t1p3" class="name-Oponent"></div>
         <div id="Scorep1" class="score-text">
             Score: <span></span>
         </div>
@@ -273,11 +351,15 @@
     </div>
         <div class="container-player">
     <div id="team2"  class="lalezar-font">
-        <h2>Oponente 2</h2>
+        <div>
+        <h2>Equipo 2</h2>
         <div id="t2p1" class="name-Oponent"></div>
+        <div id="t2p2" class="name-Oponent"></div>
+        <div id="t2p3" class="name-Oponent"></div>
         <div id="Scorep2" class="score-text">
             Score: <span></span>
         </div>
+        </div>    
     </div>
     </div>
     <div id="questionPop">
@@ -302,6 +384,22 @@
 
         </div>
     </div>
+    <div class="pagIns">
+        <div class="windowIns">
+            <div >
+                <h1>¡Bienvenido!</h1>
+            <p>Para poder jugar Jeopardy te damos las siguientes recomendaciones:</p>
+                <p class="leftAlign"><i class="fas fa-wifi"></i> Tener una conexión de internet estable</p>
+                <p class="leftAlign"><i class="fas fa-tablet-alt"></i>  Entrar mediante un dispositivo mobil o una computadora</p>
+                <p class="leftAlign"><i class="fab fa-chrome"></i> Usar un navegador actualizado</p>
+                <p class="leftAlign"><i class="fas fa-shield-alt"></i> No tener algún tipo de bloqueo en tu dispositivo o conexión</p>
+                
+                <div class="startVideo">Ok</div>
+            
+            </div>
+            
+        </div>
+    </div>
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
 <script>
@@ -319,13 +417,7 @@
   };
   firebase.initializeApp(config);
     
- swal("¿Estás listo?",{
-  button: {
-    text: "Ok",
-    className: "startVideo"   
-  },
-   closeOnClickOutside: false    
-});
+
     
     $("#closeButton").click(function(){
         $("#questionPop").hide();
@@ -333,16 +425,14 @@
     });
     
     $(".startVideo").click(function(){
+        $(".pagIns").addClass('animate');
             video.play();
     });
     
    $("#Scene1").show();
    $("#Scene2").hide();
 
-    
-
-    
-     $("#questionPop").hide();
+    $("#questionPop").hide();
 
     
 </script> 

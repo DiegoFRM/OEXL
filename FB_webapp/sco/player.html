@@ -209,6 +209,7 @@
             
         }     
         
+        #Cortina2,
         #Cortina{
             position: absolute;
             width: 100%;
@@ -335,6 +336,15 @@
     
     </div>
     
+   <div id="Cortina2"> 
+       <div>
+        <p>Espera tu turno...</p>
+        <img src="img/loading_icon.gif">
+       </div>
+       
+    </div>     
+    
+    
     <div id="popRetro">
         <div class="windowPop">
             <span></span>
@@ -347,7 +357,9 @@
         <img src="img/loading_icon.gif">
        </div>
        
-    </div> 
+    </div>    
+    
+
 </body>
 <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
 <script>
@@ -376,6 +388,7 @@
             
             if(selectAnswer == index){
                 $("#popRetro").show();
+                TweenMax.fromTo($(".windowPop"),0.5,{scale:0},{scale:1});
                 $(".windowPop").html("¡Muy bien!<br>Respuesta Correcta");
                 scoreAnswer = pointsQuestion;
             }else{
@@ -405,6 +418,7 @@
 
     $("#ButtonStart").hide();
     $("#Cortina").hide();
+    $("#Cortina2").hide();
     
 </script> 
 <script src="js/api_scorm.js"></script>  

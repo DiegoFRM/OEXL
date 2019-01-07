@@ -84,23 +84,29 @@ function deleteData(){
             countTurn:0,
             p1active:false,
             p2active:false,
+            p3active:false,
+            p4active:false,
+            p5active:false,
+            p6active:false,
             startJeopardy:0,
             restartGame:true,
             QuestionNumber:0,
             scorep1:0,
             scorep2:0,
-            timep1:0,
-            timep2:0,
+            timet1p1:0,
+            timet1p2:0,
+            timet1p3:0,
+            timet2p1:0,
+            timet2p3:0,
+            timet2p2:0,
             startgame:false,
-            team1:{
-            p1:{
-                name:"",
-            }
-            }, team2:{
-            p1:{
-                name:"",
-            } 
-            }
+            t1p1:"",
+            t1p2:"",
+            t1p3:"", 
+            t2p1:"",
+            t2p2:"",
+            t2p3:""
+            
         });
     
         $("#Iniciar").show();
@@ -111,7 +117,7 @@ function gotoScene2(){
     
      firestore.collection("26839").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-           if(doc.data().team1.p1.name != "" && doc.data().team2.p1.name != ""){
+           if(doc.data().t1p1 != "" && doc.data().t1p2 != "" && doc.data().t1p3 != "" && doc.data().t2p1 != "" && doc.data().t2p2 != "" && doc.data().t2p3 != ""){
                TweenMax.to($("#logo"),0.5,{scale:2,alpha:0,ease:Back.easeIn});
                TweenMax.to($("#Iniciar"),0.5,{scale:2,alpha:0,ease:Back.easeIn,delay:0.1});
                TweenMax.to($("#reiniciar"),0.5,{scale:2,alpha:0,ease:Back.easeIn,delay:0.2,onComplete:next1});
@@ -183,11 +189,20 @@ function restartQuestion(){
     var ide = pin.doc("eopUiANzBwYlo8FZYdEO")
         ide.update({
             startgame:2,
-            timep1:0,
-            timep2:0,
+            startJeopardy:1,
+            timet1p1:0,
+            timet1p2:0,
+            timet1p3:0,
+            timet2p1:0,
+            timet2p2:0,
+            timet2p3:0,
             countTurn:0,
             p1active:false,
-            p2active:false
+            p2active:false,
+            p3active:false,
+            p4active:false,
+            p5active:false,
+            p6active:false
             
         });
 }
@@ -208,18 +223,29 @@ var realTime  = () => {
     .onSnapshot(function(doc) {
         $("#Scorep1").find("span").html(doc.data().scorep1);
         $("#Scorep2").find("span").html(doc.data().scorep2);   
-        $("#t1p1").text(doc.data().team1.p1.name);
+        $("#t1p1").text(doc.data().t1p1);
+        
+        $("#t1p2").text(doc.data().t1p2);  
+        $("#t1p3").text(doc.data().t1p3); 
+        $("#t2p1").text(doc.data().t2p1);  
+        $("#t2p2").text(doc.data().t2p2);  
+        $("#t2p3").text(doc.data().t2p3);
      
-          if(doc.data().team1.p1.name != ""){
+          if(doc.data().t1p1 != "" && doc.data().t1p2 != "" && doc.data().t1p3 != ""){
             $("#team1").find("h2").html("¡Listo!");
+            TweenMax.fromTo($("#team1").find("h2"),1,{scale:2.5},{scale:2});
           }else{
-             $("#team1").find("h2").html("Oponente 1"); 
+             $("#team1").find("h2").html("Equipo 1");
+              TweenMax.to($("#team1").find("h2"),1,{scale:1});
           }
-        $("#t2p1").html(doc.data().team2.p1.name);
-        if(doc.data().team2.p1.name != ""){
+        
+        
+        if(doc.data().t2p1 != "" && doc.data().t2p2 != "" && doc.data().t2p3 != ""){
             $("#team2").find("h2").html("¡Listo!");
+            TweenMax.fromTo($("#team2").find("h2"),1,{scale:2.5},{scale:2});
           }else{
-             $("#team2").find("h2").html("Oponente 2"); 
+             $("#team2").find("h2").html("Equipo 2"); 
+              TweenMax.to($("#team2").find("h2"),1,{scale:1});
           }
 
 
